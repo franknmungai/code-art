@@ -1,2 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 .header {
+  padding: 0 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header h2 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2rem;
+  font-weight: lighter;
+  text-transform: capitalize;
+  cursor: pointer;
+  color: rgb(40, 40, 40);
+}
+
+.header .btn {
+  padding: 0.6rem 1.3rem;
+  font-size: 0.9rem;
+  border: none;
+  outline: none;
+  background-color: #2da44e;
+  border-radius: 0.36rem;
+  color: white;
+  letter-spacing: 1.3px;
+  font-weight: 500;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #2da44e;
 }
