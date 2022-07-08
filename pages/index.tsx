@@ -3,28 +3,15 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Header from '../components/Header';
 import styles from '../styles/Home.module.css';
-// import MonacoEditor from 'react-monaco-editor';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import CodeEditor from '../components/CodeEditor';
-// import { Pall } from "@heroicons/react/outline";
+import CustomEditor from '../components/CustomEditor';
+import { MdOutlinePalette } from 'react-icons/md';
 
 const Home: NextPage = () => {
   const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false });
 
-  const [code, setCode] = useState('<h1>Hello world!</h1>');
-
-  const editorDidMount = (editor: any, monaco: any) => {
-    console.log('editorDidMount', editor);
-    editor.focus();
-  };
-  const onChange = (newValue: any, e: any) => {
-    console.log('onChange', newValue, e);
-  };
-
-  const options = {
-    selectOnLineNumbers: true,
-  };
   return (
     <div className={styles.app}>
       <Head>
@@ -48,7 +35,10 @@ const Home: NextPage = () => {
 
           <div className="actions">
             <button className={styles.btn}>View Gallery</button>
-            <button className={`${styles.btn}`}>Create My Piece</button>
+            <button className={`${styles.btn}`}>
+              {' '}
+              <MdOutlinePalette /> Create My Piece
+            </button>
           </div>
         </div>
 
@@ -62,17 +52,10 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      {/* <MonacoEditor
-        width="800"
-        height="600"
-        language="javascript"
-        theme="vs-dark"
-        value={code}
-        options={options}
-        onChange={onChange}
-        editorDidMount={editorDidMount}
-      /> */}
-      <CodeEditor />
+      <div className={styles.demo}>
+        <div className="output"></div>
+        <CustomEditor />
+      </div>
     </div>
   );
 };

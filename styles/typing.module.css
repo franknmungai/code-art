@@ -1,0 +1,46 @@
+code#typing {
+  font-size: 15px;
+  font-family: monospace;
+  color: rgb(226, 226, 226);
+  padding: 1rem;
+}
+
+section#code_editor {
+  display: flex;
+  flex-direction: column;
+  background: #17303b;
+
+  padding: 1rem;
+  margin: 1rem auto;
+  width: 60vw;
+  min-height: 72.5vh;
+  box-shadow: 0 0 8px 6px #bbb;
+  border-radius: 16px;
+}
+
+section#code_editor #icons {
+  display: flex;
+  justify-content: flex-start;
+}
+#icons > div {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-right: 0.8rem;
+  text-align: center;
+}
+#icons > div:nth-child(1) {
+  background-color: crimson;
+}
+#icons > div:nth-child(2) {
+  background-color: goldenrod;
+}
+#icons > div:nth-child(3) {
+  background-color: green;
+}
+section#code_editor code#typing {
+  background: inherit;
+  flex: 1;
+  white-space: pre-wrap;
+  tab-size: 14px;
+}
