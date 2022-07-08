@@ -26,9 +26,15 @@
   letter-spacing: 1.3px;
   font-weight: 500;
   box-shadow: 3px 3px 3px 3px #f0f0f0;
+  display: flex;
+  align-items: center;
+}
+
+.btn .icon {
+  margin-right: 0.5rem;
 }
 
 .btn:hover {
   cursor: pointer;
-  background-color: #2da44e;
+  background-color: #1f7136;
 }
