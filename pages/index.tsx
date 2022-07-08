@@ -52,10 +52,9 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-      <div className={styles.demo}>
-        <div className="output"></div>
-        <CustomEditor />
-      </div>
+      <CustomEditor />
+
+      <CodeEditor />
     </div>
   );
 };

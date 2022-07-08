@@ -12,36 +12,36 @@ const CustomEditor = () => {
   const [codeIndex, setCodeIndex] = useState(0);
 
   useEffect(() => {
-    const timerId = setInterval(() => {
-      if (codeIndex === sampleCode.length) {
-        setTimeout(() => {
-          setCodeIndex(0);
-        }, 1000);
-      } else {
-        setCodeIndex((val) => val + 1);
-      }
+    setInterval(() => {
+      setCodeIndex((val) => (val >= sampleCode.length ? 0 : val + 1));
     }, 100);
 
     // return () => clearInterval(timerId);
   }, []);
 
   return (
-    <section id={styles.code_editor}>
-      <div id={styles.icons}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
+    <section className={styles.demo}>
+      <div
+        className={styles.output}
+        dangerouslySetInnerHTML={{ __html: sampleCode.slice(0, codeIndex) }}
+      ></div>
+      <section id={styles.code_editor}>
+        <div id={styles.icons}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
 
-      <div>
-        <SyntaxHighlighter
-          language="jsx"
-          style={atomOneDark}
-          customStyle={{ background: '#17303b' }}
-        >
-          {sampleCode.slice(0, codeIndex)}
-        </SyntaxHighlighter>
-      </div>
+        <div>
+          <SyntaxHighlighter
+            language="jsx"
+            style={atomOneDark}
+            customStyle={{ background: '#17303b' }}
+          >
+            {sampleCode.slice(0, codeIndex)}
+          </SyntaxHighlighter>
+        </div>
+      </section>
     </section>
   );
 };

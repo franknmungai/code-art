@@ -60,3 +60,14 @@
   background-color: #ea4c89;
   margin-right: 2rem;
 }
+
+.demo {
+  padding: 1.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.demo .output {
+  flex: 1;
+}

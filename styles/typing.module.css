@@ -11,8 +11,8 @@ section#code_editor {
   background: #17303b;
 
   padding: 1rem;
-  margin: 1rem auto;
-  width: 60vw;
+  margin: 1rem;
+  width: 55vw;
   min-height: 72.5vh;
   box-shadow: 0 0 8px 6px #bbb;
   border-radius: 16px;
@@ -43,4 +43,17 @@ section#code_editor code#typing {
   flex: 1;
   white-space: pre-wrap;
   tab-size: 14px;
+}
+
+.demo {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  padding: 1rem;
+}
+
+.output {
+  flex: 1;
+  margin: 0 1rem;
+  margin-top: 2.5rem;
 }

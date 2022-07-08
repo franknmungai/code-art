@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-// import { monaco } from 'react-monaco-editor';
+import styles from '../styles/editor.module.css';
 
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false });
 
@@ -33,13 +33,6 @@ const CodeEditor = () => {
               return '_next/static/ts.worker.js';
             return '_next/static/editor.worker.js';
           };
-
-          // monaco.editor.defineTheme('OneDark', {
-          //   base: 'vs-dark',
-          //   inherit: true,
-          //   rules: [{ token: '', background: '#17303b' }],
-          //   colors: {},
-          // });
         }}
         width="800"
         height="600"
@@ -52,6 +45,7 @@ const CodeEditor = () => {
           },
         }}
         onChange={onChange}
+        className={styles.editor}
       />
     </div>
   );
