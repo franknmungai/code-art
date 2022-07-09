@@ -48,7 +48,7 @@ section#code_editor code#typing {
 .demo {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
   padding: 1rem;
 }
 

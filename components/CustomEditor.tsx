@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/typing.module.css';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { atomOneDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 
 const CustomEditor = () => {
   const sampleCode = `<div>
