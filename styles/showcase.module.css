@@ -1,0 +1,28 @@
+.container {
+  margin: 2rem 1.5rem;
+  /* font-family: Mingzat, sans-serif; */
+  font-weight: 600;
+}
+
+.tabs {
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.tabs > span {
+  margin: 0 1rem;
+  font-size: 0.9rem;
+  letter-spacing: 1.3px;
+  cursor: pointer;
+  padding: 0.6rem 2rem;
+  border-radius: 8px;
+  transition: all 200ms ease-in;
+}
+
+.tabs .active,
+.tabs > span:hover {
+  background: #f79d0254;
+  box-shadow: 2px 2px 4px 4px #f0f0f0;
+}
