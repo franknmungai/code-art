@@ -1,51 +1,55 @@
-import { useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
-import styles from '../styles/editor.module.css';
+import { rules } from '../utils/data';
 
 const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false });
 
-const CodeEditor = () => {
-  const [postBody, setPostBody] = useState('');
-
+interface Props {
+  onChange: (value: string, event: any) => void;
+  value: string;
+}
+const CodeEditor: React.FC<Props> = ({ onChange, value }) => {
   const editorDidMount = (editor: any, monaco: any) => {
-    console.log('editorDidMount', editor);
+    // @ts-ignore
+    window.MonacoEnvironment.getWorkerUrl = (
+      _moduleId: string,
+      label: string
+    ) => {
+      if (label === 'json') return '_next/static/json.worker.js';
+      if (label === 'css') return '_next/static/css.worker.js';
+      if (label === 'html') return '_next/static/html.worker.js';
+      if (label === 'typescript' || label === 'javascript')
+        return '_next/static/ts.worker.js';
+      return '_next/static/editor.worker.js';
+    };
+
     editor.focus();
+
+    monaco.editor.defineTheme('OneDark', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: rules,
+      colors: {
+        'editor.background': '#17303b',
+      },
+    });
   };
 
-  const onChange = (newValue: any, e: any) => {
-    console.log(newValue);
-  };
-  // etc
   return (
     <div>
-      {/* etc */}
       <MonacoEditor
-        editorDidMount={() => {
-          // @ts-ignore
-          window.MonacoEnvironment.getWorkerUrl = (
-            _moduleId: string,
-            label: string
-          ) => {
-            if (label === 'json') return '_next/static/json.worker.js';
-            if (label === 'css') return '_next/static/css.worker.js';
-            if (label === 'html') return '_next/static/html.worker.js';
-            if (label === 'typescript' || label === 'javascript')
-              return '_next/static/ts.worker.js';
-            return '_next/static/editor.worker.js';
-          };
-        }}
+        editorDidMount={editorDidMount}
         width="800"
         height="600"
         language="html"
         theme="vs-dark"
-        value={postBody}
+        value={value}
         options={{
           minimap: {
             enabled: false,
           },
         }}
         onChange={onChange}
-        className={styles.editor}
       />
     </div>
   );

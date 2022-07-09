@@ -7,7 +7,7 @@ const Featured = () => {
     <div className={styles.container}>
       <h2>Top Artist</h2>
       <div className={styles.flex}>
-        <div className={styles.artWork}></div>
+        <div className={styles.artwork}></div>
         <div className={styles.featured}>
           <div
             className={styles.profileImage}
