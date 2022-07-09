@@ -51,8 +51,37 @@
 
   /* Todo: remove this */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  /* height: 100%; */
+}
+
+.piece .project {
+  flex: 7;
+}
+
+.projects .details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: rgba(5, 95, 240, 0.1);
+  width: 100%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  opacity: 0;
+}
+
+.details .user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.piece:hover .show {
+  animation: detailsAnimation 600ms ease-in-out both;
 }
 
 .piece:nth-child(1) {
@@ -77,6 +106,18 @@
 
 .piece:nth-child(6) {
   animation: piece6Animation 800ms ease-in-out 400ms both; /*delay iteration-count direction fill-mode;*/
+}
+
+@keyframes detailsAnimation {
+  from {
+    /* opacity: 0; */
+    bottom: -200px;
+  }
+
+  to {
+    opacity: 1;
+    bottom: 0;
+  }
 }
 
 @keyframes piece1Animation {
@@ -119,13 +160,11 @@
   0% {
     opacity: 0;
     bottom: -800px;
-    height: 0;
   }
 
   100% {
     opacity: 1;
     bottom: 0;
-    height: 100%;
   }
 }
 @keyframes piece5Animation {

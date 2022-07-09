@@ -9,6 +9,7 @@ import CodeEditor from '../components/CodeEditor';
 import CustomEditor from '../components/CustomEditor';
 import { MdOutlinePalette } from 'react-icons/md';
 import ShowCase from '../components/ShowCase';
+import Featured from '../components/Featured';
 
 const Home: NextPage = () => {
   const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false });
@@ -56,6 +57,8 @@ const Home: NextPage = () => {
       <CustomEditor />
 
       <ShowCase />
+
+      <Featured />
     </div>
   );
 };

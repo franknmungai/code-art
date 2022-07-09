@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MdOutlineLaunch, MdPersonOutline } from 'react-icons/md';
 import styles from '../styles/showcase.module.css';
 
 enum Tabs {
@@ -46,19 +47,22 @@ const ShowCase = () => {
       </div>
 
       {/* Projects */}
-
       <div className={styles.projects}>
-        {/* <div className={styles.piece}></div>
-        <div className={styles.piece}></div>
-        <div className={styles.piece}></div>
-        <div className={styles.piece}></div>
-        <div className={styles.piece}></div>
-        <div className={styles.piece}></div> */}
-
         {sampleProjects[activeTab].map((project) => {
           return (
             <div className={styles.piece} key={project}>
-              {project}
+              <div className={styles.project}>{project}</div>
+
+              <div className={`${styles.details} ${styles.show}`}>
+                <div className={styles.user}>
+                  <MdPersonOutline size={24} />
+                  <span>By Frank M</span>
+                </div>
+
+                <div>
+                  <MdOutlineLaunch size={24} />
+                </div>
+              </div>
             </div>
           );
         })}
