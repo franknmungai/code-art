@@ -1,0 +1,90 @@
+.container {
+  margin: 2rem;
+  text-align: center;
+  margin-bottom: 4rem;
+  height: 100%;
+}
+
+.container h2 {
+  font-family: 2.2rem;
+  letter-spacing: 1.5px;
+  font-weight: bolder;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.container p {
+  margin-right: 2rem;
+}
+
+.featured {
+  position: relative;
+}
+
+.featured .profileImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: -3px -3px 3px 3px white;
+  z-index: 1;
+}
+
+.featured .profileInfo {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  box-shadow: 0 0 3px 3px white;
+  width: 300px;
+  height: 300px;
+  background: rgba(105, 90, 205, 0.8);
+  border-radius: 8px;
+  display: none;
+}
+
+/*.profileImage:hover ~*/
+.profileInfo.show {
+  display: block;
+  animation: profileInfo 600ms ease-in-out;
+}
+
+.profileInfo.hide {
+  animation: profileInfo2 600ms ease-in-out both;
+}
+
+.artwork {
+  width: 300px;
+  height: 300px;
+  border-radius: 8px;
+  box-shadow: 0 0 3px 3px white;
+}
+@keyframes profileInfo {
+  from {
+    left: 0;
+    top: 0;
+  }
+
+  to {
+    left: 50;
+    top: 50;
+  }
+}
+
+@keyframes profileInfo2 {
+  from {
+    left: 50;
+    top: 50;
+  }
+
+  to {
+    left: 0;
+    top: 0;
+  }
+}
