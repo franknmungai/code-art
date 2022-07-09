@@ -26,3 +26,127 @@
   background: #f79d0254;
   box-shadow: 2px 2px 4px 4px #f0f0f0;
 }
+
+.tabs .tab_icon {
+  font-size: 1.3rem;
+}
+.projects {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-rows: repeat(2, 1fr); */
+  margin: 2rem;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.projects .piece {
+  position: relative;
+  box-shadow: 3px 3px 4px 4px #f0f0f0;
+  background: white;
+  border-radius: 0.5rem;
+  min-height: 300px;
+  max-width: 400px;
+  margin: 1rem;
+
+  /* Todo: remove this */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.piece:nth-child(1) {
+  animation: piece1Animation 800ms ease-in-out; /*delay iteration-count direction fill-mode;*/
+}
+
+.piece:nth-child(2) {
+  animation: piece2Animation 800ms ease-in-out; /*delay iteration-count direction fill-mode;*/
+}
+
+.piece:nth-child(3) {
+  animation: piece3Animation 800ms ease-in-out; /*delay iteration-count direction fill-mode;*/
+}
+
+.piece:nth-child(4) {
+  animation: piece4Animation 800ms ease-in-out 400ms both; /*delay iteration-count direction fill-mode;*/
+}
+
+.piece:nth-child(5) {
+  animation: piece5Animation 800ms ease-in-out 400ms both; /*delay iteration-count direction fill-mode;*/
+}
+
+.piece:nth-child(6) {
+  animation: piece6Animation 800ms ease-in-out 400ms both; /*delay iteration-count direction fill-mode;*/
+}
+
+@keyframes piece1Animation {
+  from {
+    opacity: 0;
+    left: -400px;
+  }
+
+  to {
+    opacity: 1;
+    left: 0;
+  }
+}
+
+@keyframes piece2Animation {
+  0% {
+    opacity: 0;
+    bottom: -800px;
+  }
+
+  100% {
+    opacity: 1;
+    bottom: 0;
+  }
+}
+
+@keyframes piece3Animation {
+  0% {
+    opacity: 0;
+    right: 800px;
+  }
+
+  100% {
+    opacity: 1;
+    right: 0;
+  }
+}
+
+@keyframes piece4Animation {
+  0% {
+    opacity: 0;
+    bottom: -800px;
+    height: 0;
+  }
+
+  100% {
+    opacity: 1;
+    bottom: 0;
+    height: 100%;
+  }
+}
+@keyframes piece5Animation {
+  0% {
+    opacity: 0;
+    right: 800px;
+  }
+
+  100% {
+    opacity: 1;
+    right: 0;
+  }
+}
+@keyframes piece6Animation {
+  0% {
+    opacity: 0;
+    left: 800px;
+  }
+
+  100% {
+    opacity: 1;
+    left: 0;
+  }
+}
