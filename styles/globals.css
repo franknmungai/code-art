@@ -38,3 +38,18 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+canvas.decorationsOverviewRuler {
+  border-top-right-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+  display: none !important;
+}
+
+div.margin-view-overlays {
+  margin-top: 1rem !important;
+}
+
+div.overflow-guard {
+  border-radius: 0.5rem !important;
+  padding-top: 1rem !important;
+}

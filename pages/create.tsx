@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import CodeEditor from '../components/CodeEditor';
+import Editor2 from '../components/Editor2';
 import Header from '../components/Header';
+import styles from '../styles/create-page.module.css';
 
 const Create = () => {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState<string | undefined>('');
   const [srcDoc, setSrcDoc] = useState('');
 
-  const handleChange = (newValue: string, e: any) => {
+  const handleChange = (newValue: string | undefined, e: any) => {
     setCode(newValue);
   };
 
@@ -14,28 +16,36 @@ const Create = () => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
       <html>
-          <body>${code}</body>
           <style></style>
+          <body>${code}</body>
       </html>
   `);
-    }, 500);
+    }, 250);
 
     return () => clearTimeout(timeout);
   }, [code]);
 
   return (
-    <div>
-      {/* Output */}
-      <Header />
-      <div style={{ display: 'flex', background: '#fff' }}>
+    <div className={styles.container}>
+      <div className={styles.flex}>
         <iframe
           title="output"
           sandbox="allow-scripts"
           width="500px"
           height="700px"
           srcDoc={srcDoc}
+          className={styles.output}
         />
-        <CodeEditor onChange={handleChange} value={code} />
+        <div className={styles.editorContainer}>
+          <Editor2
+            onChange={handleChange}
+            value={code as string}
+            width="50vw"
+            height="70vh"
+            language="html"
+            className={styles.editor}
+          />
+        </div>
       </div>
     </div>
   );

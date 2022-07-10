@@ -1,23 +1,38 @@
+import React from 'react';
 import Editor from '@monaco-editor/react';
-import { rules } from '../utils/data';
 
-function Editor2() {
-  function handleEditorChange(value: any, event: any) {
-    console.log('here is the current model value:', value);
-  }
+interface Props {
+  onChange: (value: string | undefined, event: any) => void;
+  value: string;
+  width: string;
+  height: string;
+  language: string;
+  className?: string;
+}
 
+const Editor2: React.FC<Props> = ({
+  onChange,
+  value,
+  width,
+  height,
+  language,
+  className,
+}) => {
   return (
     <Editor
-      height="90vh"
-      defaultLanguage="javascript"
-      defaultValue="// some comment"
-      onChange={handleEditorChange}
+      height={height}
+      width={width}
+      defaultLanguage={language} /*"javascript"*/
+      defaultValue=""
+      onChange={onChange}
+      value={value}
       theme="OneDark"
+      className={className}
       beforeMount={(monaco) => {
         monaco.editor.defineTheme('OneDark', {
           base: 'vs-dark',
           inherit: true,
-          rules: rules,
+          rules: [],
           colors: {
             'editor.background': '#17303b',
           },
@@ -25,6 +40,6 @@ function Editor2() {
       }}
     />
   );
-}
+};
 
 export default Editor2;
