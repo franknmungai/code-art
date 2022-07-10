@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
   height: string;
   language: string;
   className?: string;
+  onMount?: (editor: any, monaco: any) => void;
 }
 
 const Editor2: React.FC<Props> = ({
@@ -17,7 +18,9 @@ const Editor2: React.FC<Props> = ({
   height,
   language,
   className,
+  onMount,
 }) => {
+  useEffect(() => console.log(language));
   return (
     <Editor
       height={height}

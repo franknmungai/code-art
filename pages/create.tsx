@@ -5,26 +5,69 @@ import Editor2 from '../components/Editor2';
 import Header from '../components/Header';
 import styles from '../styles/create-page.module.css';
 
+enum Lang {
+  html = 'html',
+  css = 'css',
+  js = 'javascript',
+}
 const Create = () => {
-  const [code, setCode] = useState<string | undefined>('');
   const [srcDoc, setSrcDoc] = useState('');
+  const [lang, setLang] = useState(Lang.html);
 
-  const handleChange = (newValue: string | undefined, e: any) => {
-    setCode(newValue);
+  const [html, setHtml] = useState<string | undefined>('');
+  const [css, setCss] = useState<string | undefined>('');
+  const [js, setJs] = useState<string | undefined>('');
+
+  const handleChange = (newValue: string | undefined, lang: Lang) => {
+    switch (lang) {
+      case Lang.html:
+        setHtml(newValue);
+        break;
+      case Lang.css:
+        setCss(newValue);
+        break;
+      case Lang.js:
+        setJs(newValue);
+        break;
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
       <html>
-          <style></style>
-          <body>${code}</body>
+          <style>${css}</style>
+          <body>
+            ${html}
+            <script>${js}</script>
+          </body>     
       </html>
   `);
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [code]);
+  }, [html, css, js]);
+
+  const getValue = (lang: Lang) => {
+    switch (lang) {
+      case Lang.html:
+        return html;
+      case Lang.css:
+        return css;
+      case Lang.js:
+        return js;
+      default:
+        break;
+    }
+  };
+
+  const tabs = [
+    [Lang.html, 'html.png'],
+    [Lang.css, 'css.png'],
+    [Lang.js, 'js.png'],
+  ];
 
   return (
     <div className={styles.container}>
@@ -37,28 +80,55 @@ const Create = () => {
           srcDoc={srcDoc}
           className={styles.output}
         />
+
         <div className={styles.editorContainer}>
           <div className={styles.editorTabs}>
-            <div className={styles.active}>
-              <Image
-                src="/html.png"
-                width="28px"
-                height="28px"
-                layout="fixed"
-              />
-              <span>HTML</span>
-            </div>
-            <div>CSS</div>
-            <div>JS</div>
+            {tabs.map(([name, image]) => (
+              <div
+                className={`${lang === name && styles.active}`}
+                onClick={() => setLang(name as Lang)}
+                key={name}
+              >
+                <Image
+                  src={`/${image}`}
+                  width="28px"
+                  height="28px"
+                  layout="fixed"
+                />
+                <span>{name}</span>
+              </div>
+            ))}
           </div>
-          <Editor2
-            onChange={handleChange}
-            value={code as string}
-            width="50vw"
-            height="80vh"
-            language="html"
-            className={styles.editor}
-          />
+          {lang === Lang.html && (
+            <Editor2
+              onChange={(value, e) => setHtml(value)}
+              value={getValue(lang) as string}
+              width="50vw"
+              height="80vh"
+              language="html"
+              className={styles.editor}
+            />
+          )}
+          {lang === Lang.css && (
+            <Editor2
+              onChange={(value, e) => setCss(value)}
+              value={getValue(lang) as string}
+              width="50vw"
+              height="80vh"
+              language="css"
+              className={styles.editor}
+            />
+          )}
+          {lang === Lang.js && (
+            <Editor2
+              onChange={(value, e) => setJs(value)}
+              value={getValue(lang) as string}
+              width="50vw"
+              height="80vh"
+              language="javascript"
+              className={styles.editor}
+            />
+          )}
         </div>
       </div>
     </div>

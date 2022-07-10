@@ -47,7 +47,7 @@
 }
 
 .editorTabs > div:hover {
-  background: rgba(255, 166, 0, 0.6);
+  background: rgba(255, 166, 0, 0.1);
 }
 
 .editorTabs > div > span {
