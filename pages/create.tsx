@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import CodeEditor from '../components/CodeEditor';
 import Editor2 from '../components/Editor2';
@@ -31,17 +32,30 @@ const Create = () => {
         <iframe
           title="output"
           sandbox="allow-scripts"
-          width="500px"
+          width="700px"
           height="700px"
           srcDoc={srcDoc}
           className={styles.output}
         />
         <div className={styles.editorContainer}>
+          <div className={styles.editorTabs}>
+            <div className={styles.active}>
+              <Image
+                src="/html.png"
+                width="28px"
+                height="28px"
+                layout="fixed"
+              />
+              <span>HTML</span>
+            </div>
+            <div>CSS</div>
+            <div>JS</div>
+          </div>
           <Editor2
             onChange={handleChange}
             value={code as string}
             width="50vw"
-            height="70vh"
+            height="80vh"
             language="html"
             className={styles.editor}
           />

@@ -60,8 +60,6 @@ const Home: NextPage = () => {
       <ShowCase />
 
       <Featured />
-
-      <Editor2 />
     </div>
   );
 };

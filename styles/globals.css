@@ -40,9 +40,28 @@ a {
 }
 
 canvas.decorationsOverviewRuler {
-  border-top-right-radius: 0.5rem !important;
-  border-bottom-right-radius: 0.5rem !important;
+  /* border-top-right-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important; */
   display: none !important;
+}
+
+div.margin-view-overlays {
+  /* border-top-left-radius: 0.5rem !important; */
+  /* border-bottom-right-radius: 0.5rem !important; */
+}
+
+div.monaco-editor {
+  /* border-radius: 0.5rem !important; */
+  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+}
+
+div.create-page_editor__CaVCc > section {
+  /* border-radius: 0.5rem !important; */
+}
+
+div.create-page_editorContainer__DIKio {
+  /* border-radius: 0.5rem !important; */
 }
 
 div.margin-view-overlays {
@@ -50,6 +69,8 @@ div.margin-view-overlays {
 }
 
 div.overflow-guard {
-  border-radius: 0.5rem !important;
-  padding-top: 1rem !important;
+  /* border-radius: 0.5rem !important; */
+  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+  padding: 1rem !important;
 }
