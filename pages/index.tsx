@@ -3,17 +3,22 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Header from '../components/Header';
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import CodeEditor from '../components/CodeEditor';
 import CustomEditor from '../components/CustomEditor';
 import { MdOutlinePalette } from 'react-icons/md';
+import { AiOutlineEye } from 'react-icons/ai';
 import ShowCase from '../components/ShowCase';
 import Featured from '../components/Featured';
-import Editor2 from '../components/Editor2';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
-  const MonacoEditor = dynamic(import('react-monaco-editor'), { ssr: false });
+  const scrollToShowcase = () => {
+    const anchor = document.querySelector('#showcase');
+    if (anchor)
+      anchor.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+  };
 
   return (
     <div className={styles.app}>
@@ -36,12 +41,16 @@ const Home: NextPage = () => {
             Create some Generative art and share your pieces with others
           </p>
 
-          <div className="actions">
-            <button className={styles.btn}>View Gallery</button>
-            <button className={`${styles.btn}`}>
-              {' '}
-              <MdOutlinePalette /> Create My Piece
+          <div className={styles.actions}>
+            <button className={styles.btn} onClick={scrollToShowcase}>
+              <AiOutlineEye size={20} /> <span>View Gallery</span>
             </button>
+            <Link href="/create">
+              <button className={`${styles.btn}`}>
+                {' '}
+                <MdOutlinePalette size={20} /> <span>Create My Piece</span>
+              </button>
+            </Link>
           </div>
         </div>
 

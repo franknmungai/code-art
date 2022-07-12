@@ -30,7 +30,7 @@ const ShowCase = () => {
   ];
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="showcase">
       {/* Tabs */}
       <div className={styles.tabs}>
         {tabsContent.map(([name, icon]) => {

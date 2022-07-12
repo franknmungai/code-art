@@ -40,7 +40,8 @@
 }
 
 .actions {
-  margin-top: 3rem;
+  margin-top: 2rem;
+  display: flex;
 }
 .btn {
   padding: 0.9rem 1.75rem;
@@ -54,6 +55,9 @@
   font-weight: 500;
   box-shadow: 3px 3px 3px 3px #f0f0f0;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .btn:nth-child(1) {
@@ -65,7 +69,9 @@
   background-color: #ea4c89;
   margin-right: 2rem;
 }
-
+.btn > span {
+  margin-left: 0.5rem;
+}
 .demo {
   padding: 1.5rem 1rem;
   display: flex;

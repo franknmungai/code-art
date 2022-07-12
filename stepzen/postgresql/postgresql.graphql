@@ -1,0 +1,308 @@
+type Artwork {
+  created_at: DateTime
+  css: String
+  html: String
+  id: ID!
+  js: String
+  reactionsList: [Reactions] @materializer(query: "getReactionsUsingArtwork_id")
+  user_id: ID
+  username: String
+  users: Users
+    @materializer(
+      query: "getUsers"
+      arguments: [{ name: "id", field: "user_id" }]
+    )
+}
+
+"""
+NOTE: users: unsupported type ARRAY, field omitted
+"""
+type Followers {
+  created_at: DateTime
+  id: ID!
+  user_id: ID
+  users: Users
+    @materializer(
+      query: "getUsers"
+      arguments: [{ name: "id", field: "user_id" }]
+    )
+}
+
+"""
+NOTE: users: unsupported type ARRAY, field omitted
+"""
+type Following {
+  created_at: DateTime
+  id: ID!
+  user_id: ID
+  users: Users
+    @materializer(
+      query: "getUsers"
+      arguments: [{ name: "id", field: "user_id" }]
+    )
+}
+
+type Reactions {
+  artwork: Artwork
+    @materializer(
+      query: "getArtwork"
+      arguments: [{ name: "id", field: "artwork_id" }]
+    )
+  artwork_id: ID
+  created_at: DateTime
+  emoji: String
+  id: ID!
+  user_id: ID
+  users: Users
+    @materializer(
+      query: "getUsers"
+      arguments: [{ name: "id", field: "user_id" }]
+    )
+}
+
+type Users {
+  artworkList: [Artwork] @materializer(query: "getArtworkUsingUser_id")
+  avatar: String
+  created_at: DateTime
+  email: String
+  followers: ID
+  followersList: [Followers] @materializer(query: "getFollowersUsingUser_id")
+  following: ID
+  followingList: [Following] @materializer(query: "getFollowingUsingUser_id")
+  github_uid: String
+  id: ID!
+  reactionsList: [Reactions] @materializer(query: "getReactionsUsingUser_id")
+  username: String
+}
+
+"""
+These are some examples of queries generated from the schema. Feel free to modify them or add your own.
+"""
+type Query {
+  getArtworkList: [Artwork]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "artwork"
+      configuration: "postgresql_config"
+    )
+  getArtwork(id: ID!): Artwork
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "artwork"
+      configuration: "postgresql_config"
+    )
+  getReactionsUsingArtwork_id(id: ID!): [Reactions]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."artwork_id", T."created_at", T."emoji", T."id", T."user_id"
+        FROM "public"."reactions" T
+        WHERE T."artwork_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getFollowersList: [Followers]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "followers"
+      configuration: "postgresql_config"
+    )
+  getFollowers(id: ID!): Followers
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "followers"
+      configuration: "postgresql_config"
+    )
+  getFollowingList: [Following]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "following"
+      configuration: "postgresql_config"
+    )
+  getFollowing(id: ID!): Following
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "following"
+      configuration: "postgresql_config"
+    )
+  getReactionsList: [Reactions]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reactions"
+      configuration: "postgresql_config"
+    )
+  getReactions(id: ID!): Reactions
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reactions"
+      configuration: "postgresql_config"
+    )
+  getUsersList: [Users]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "users"
+      configuration: "postgresql_config"
+    )
+  getUsers(id: ID!): Users
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "users"
+      configuration: "postgresql_config"
+    )
+  getArtworkUsingUser_id(id: ID!): [Artwork]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."css", T."html", T."id", T."js", T."user_id", T."username"
+        FROM "public"."artwork" T
+        WHERE T."user_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getFollowersUsingUser_id(id: ID!): [Followers]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."id", T."user_id", T."users"
+        FROM "public"."followers" T
+        WHERE T."user_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getFollowingUsingUser_id(id: ID!): [Following]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."created_at", T."id", T."user_id", T."users"
+        FROM "public"."following" T
+        WHERE T."user_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  getReactionsUsingUser_id(id: ID!): [Reactions]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT T."artwork_id", T."created_at", T."emoji", T."id", T."user_id"
+        FROM "public"."reactions" T
+        WHERE T."user_id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+These are some examples of mutations generated from the schema. Feel free to modify them or add your own.
+"""
+type Mutation {
+  insertArtwork(
+    created_at: DateTime!
+    js: String!
+    html: String!
+    username: String!
+    user_id: ID!
+    css: String!
+  ): Artwork
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "artwork"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteArtwork(id: ID!): Artwork
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "artwork"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertFollowers(created_at: DateTime!, user_id: ID!): Followers
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "followers"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteFollowers(id: ID!): Followers
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "followers"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertFollowing(created_at: DateTime!, user_id: ID!): Following
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "following"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteFollowing(id: ID!): Following
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "following"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertReactions(
+    created_at: DateTime!
+    emoji: String!
+    artwork_id: ID!
+    user_id: ID!
+  ): Reactions
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reactions"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteReactions(id: ID!): Reactions
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reactions"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertUsers(
+    following: ID!
+    avatar: String!
+    created_at: DateTime!
+    email: String!
+    followers: ID!
+    username: String!
+    github_uid: String!
+  ): Users
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "users"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  deleteUsers(id: ID!): Users
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "users"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+}

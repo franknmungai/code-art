@@ -8,6 +8,15 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 module.exports = withTM({
+  env: {
+    GITHUB_ID: process.env.GITHUB_ID,
+    GITHUB_SECRET: process.env.GITHUB_SECRET,
+
+    STEPZEN_API_KEY: process.env.STEPZEN_API_KEY,
+
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+  },
   webpack: (config) => {
     const rule = config.module.rules
       .find((rule) => rule.oneOf)

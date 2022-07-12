@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: postgresql_config
+      uri: postgresql://db.xzpkogguecpeastebpxm.supabase.co/postgres?user=postgres&password=gen-art-js-120722
