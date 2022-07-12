@@ -38,3 +38,24 @@
   cursor: pointer;
   background-color: #1f7136;
 }
+
+.accountInfo {
+  background: rgba(105, 90, 205, 0.6);
+  box-shadow: 0 0 3px 3px #f0f0f0;
+  padding: 0.6rem 1.8rem;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+.accountInfo > span {
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}

@@ -206,7 +206,6 @@ These are some examples of mutations generated from the schema. Feel free to mod
 """
 type Mutation {
   insertArtwork(
-    created_at: DateTime!
     js: String!
     html: String!
     username: String!

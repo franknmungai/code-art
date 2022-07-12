@@ -1,8 +1,9 @@
+import { useMutation } from '@apollo/client';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import CodeEditor from '../components/CodeEditor';
 import Editor2 from '../components/Editor2';
-import Header from '../components/Header';
+import { CREATE_ARTWORK } from '../graphql/mutations';
 import styles from '../styles/create-page.module.css';
 
 enum Lang {
@@ -13,6 +14,7 @@ enum Lang {
 const Create = () => {
   const [srcDoc, setSrcDoc] = useState('');
   const [lang, setLang] = useState(Lang.html);
+  const { data: session } = useSession();
 
   const [html, setHtml] = useState<string | undefined>('');
   const [css, setCss] = useState<string | undefined>('');
@@ -69,8 +71,30 @@ const Create = () => {
     [Lang.js, 'js.png'],
   ];
 
+  const [createArt] = useMutation(CREATE_ARTWORK, {
+    variables: {
+      html,
+      css,
+      js,
+      user_id: 1,
+      username: session?.user?.name,
+    },
+  });
   return (
     <div className={styles.container}>
+      <button
+        onClick={async () => {
+          alert('Creating...');
+          const {
+            data: { insertArtwork: newArtWork },
+          } = await createArt();
+
+          console.log({ newArtWork });
+          alert('Created');
+        }}
+      >
+        Create
+      </button>
       <div className={styles.flex}>
         <iframe
           title="output"

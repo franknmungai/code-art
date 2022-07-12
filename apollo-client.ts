@@ -11,7 +11,7 @@ import process from 'process';
 // });
 
 const client = new ApolloClient({
-  uri: 'http://localhost:5001/api/next-reddyit',
+  uri: 'http://localhost:5001/api/canvas-art',
   cache: new InMemoryCache(),
 });
 
