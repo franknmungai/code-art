@@ -1,10 +1,11 @@
-import { useMutation } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import Editor2 from '../components/Editor2';
-import { CREATE_ARTWORK } from '../graphql/mutations';
-import styles from '../styles/create-page.module.css';
+import Editor2 from '../../components/Editor2';
+import { GET_ARTWORK_BY_ID } from '../../graphql/queries';
+import styles from '../../styles/create-page.module.css';
 
 enum Lang {
   html = 'html',
@@ -15,6 +16,15 @@ const Create = () => {
   const [srcDoc, setSrcDoc] = useState('');
   const [lang, setLang] = useState(Lang.html);
   const { data: session } = useSession();
+  const {
+    query: { id },
+  } = useRouter();
+
+  const { data } = useQuery(GET_ARTWORK_BY_ID, {
+    variables: {
+      id,
+    },
+  });
 
   const [html, setHtml] = useState<string | undefined>('');
   const [css, setCss] = useState<string | undefined>('');
@@ -40,26 +50,26 @@ const Create = () => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
       <html>
-          <style>${css}</style>
+          <style>${data?.getArtwork?.css}</style>
           <body>
-            ${html}
-            <script>${js}</script>
+            ${data?.getArtwork?.html}
+            <script>${data?.getArtwork?.js}</script>
           </body>     
       </html>
   `);
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [html, css, js]);
+  }, [data]);
 
   const getValue = (lang: Lang) => {
     switch (lang) {
       case Lang.html:
-        return html;
+        return data?.getArtwork?.html as string;
       case Lang.css:
-        return css;
+        return data?.getArtwork?.css as string;
       case Lang.js:
-        return js;
+        return data?.getArtwork?.js as string;
       default:
         break;
     }
@@ -70,16 +80,6 @@ const Create = () => {
     [Lang.css, 'css.png'],
     [Lang.js, 'js.png'],
   ];
-
-  const [createArt] = useMutation(CREATE_ARTWORK, {
-    variables: {
-      html,
-      css,
-      js,
-      user_id: 1,
-      username: session?.user?.name,
-    },
-  });
 
   return (
     <div className={styles.container}>

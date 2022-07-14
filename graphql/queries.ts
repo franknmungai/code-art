@@ -29,3 +29,21 @@ export const GET_ARTWORK = gql`
     }
   }
 `;
+
+export const GET_ARTWORK_BY_ID = gql`
+  query MyQuery($id: ID!) {
+    getArtwork(id: $id) {
+      id
+      username
+      user_id
+      html
+      css
+      js
+      reactionsList {
+        emoji
+        id
+        created_at
+      }
+    }
+  }
+`;

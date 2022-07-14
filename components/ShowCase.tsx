@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MdOutlineLaunch, MdPersonOutline } from 'react-icons/md';
 import { GET_ARTWORK } from '../graphql/queries';
@@ -147,9 +148,11 @@ const ShowCase = () => {
                     ))}
                   </div>
 
-                  <div>
-                    <MdOutlineLaunch size={20} />
-                  </div>
+                  <Link href={`/artwork/${project?.id}`}>
+                    <div>
+                      <MdOutlineLaunch size={20} />
+                    </div>
+                  </Link>
                 </div>
               </div>
             );
