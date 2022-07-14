@@ -80,21 +80,19 @@ const Create = () => {
       username: session?.user?.name,
     },
   });
+
+  const createArtwork = async () => {
+    const {
+      data: { insertArtwork: newArtWork },
+    } = await createArt();
+
+    console.log({ newArtWork });
+    alert('Created');
+  };
+
   return (
     <div className={styles.container}>
-      <button
-        onClick={async () => {
-          alert('Creating...');
-          const {
-            data: { insertArtwork: newArtWork },
-          } = await createArt();
-
-          console.log({ newArtWork });
-          alert('Created');
-        }}
-      >
-        Create
-      </button>
+      <button onClick={createArtwork}>Create</button>
       <div className={styles.flex}>
         <iframe
           title="output"
