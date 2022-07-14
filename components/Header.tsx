@@ -1,15 +1,51 @@
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import styles from '../styles/header.module.css';
 import { BsGithub, BsPerson } from 'react-icons/bs';
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_USER_BY_EMAIL } from '../graphql/queries';
+import { CREATE_USER } from '../graphql/mutations';
+import apolloClient from '../apollo-client';
 
 const Header = () => {
   const { data: session } = useSession();
 
-  console.log(session);
   const handleAuth = () => {
     session ? signOut() : signIn();
   };
+
+  const addUser = async () => {
+    if (!session) {
+      return;
+    }
+    // Check if the user has been added to the database, if not, add this user to db
+    const {
+      data: { getUserByEmail },
+    } = await apolloClient.query({
+      query: GET_USER_BY_EMAIL,
+      variables: {
+        email: session?.user?.email,
+      },
+    });
+
+    if (!getUserByEmail.length) {
+      await apolloClient.mutate({
+        mutation: CREATE_USER,
+        variables: {
+          email: session.user?.email,
+          avatar: session.user?.image,
+          username: session.user?.name,
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    addUser();
+
+    console.log({ session });
+  }, [session]);
 
   return (
     <div className={styles.header}>

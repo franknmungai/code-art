@@ -169,6 +169,14 @@ type Query {
       """
       configuration: "postgresql_config"
     )
+  getUserByEmail(email: String!): [Users]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      SELECT * FROM "users" WHERE "email" = $1
+      """
+      configuration: "postgresql_config"
+    )
   getFollowersUsingUser_id(id: ID!): [Followers]
     @dbquery(
       type: "postgresql"
@@ -280,15 +288,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertUsers(
-    following: ID!
-    avatar: String!
-    created_at: DateTime!
-    email: String!
-    followers: ID!
-    username: String!
-    github_uid: String!
-  ): Users
+  insertUsers(avatar: String!, email: String!, username: String!): Users
     @dbquery(
       type: "postgresql"
       schema: "public"

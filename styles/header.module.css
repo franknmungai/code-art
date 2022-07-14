@@ -40,14 +40,15 @@
 }
 
 .accountInfo {
-  background: rgba(105, 90, 205, 0.6);
-  box-shadow: 0 0 3px 3px #f0f0f0;
+  /* background: rgba(105, 90, 205, 0.2); */
+  box-shadow: 0 0 8px 4px #dcdcdc;
   padding: 0.6rem 1.8rem;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  border-radius: 8px;
   justify-content: space-between;
   cursor: pointer;
+  /* background-color: white; */
 }
 .avatar {
   width: 2.5rem;
