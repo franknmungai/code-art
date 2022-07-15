@@ -1,7 +1,10 @@
 import { useQuery } from '@apollo/client';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MdOutlineLaunch, MdPersonOutline } from 'react-icons/md';
+import client from '../apollo-client';
+import { ADD_REACTION } from '../graphql/mutations';
 import { GET_ARTWORK } from '../graphql/queries';
 import styles from '../styles/showcase.module.css';
 
@@ -22,6 +25,7 @@ const ShowCase = () => {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Favorite);
   const [artwork, setArtWork] = useState(sampleProjects);
   const { data } = useQuery(GET_ARTWORK);
+  const { data: session } = useSession();
 
   useEffect(() => {
     let projects = data?.getArtworkList;
@@ -87,6 +91,25 @@ const ShowCase = () => {
     [Tabs.Mindblowing, '🤯'],
   ];
 
+  const addReaction = async (
+    artwork_id: string,
+    user_id: string,
+    reaction: string
+  ) => {
+    try {
+      await client.mutate({
+        mutation: ADD_REACTION,
+        variables: {
+          artwork_id,
+          user_id,
+          reaction,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={styles.container} id="showcase">
       {/* Tabs */}
@@ -138,9 +161,19 @@ const ShowCase = () => {
                   </div>
 
                   <div className={styles.reactions}>
-                    {tabsContent.map(([_, reaction]) => (
+                    {tabsContent.map(([reaction, emoji]) => (
                       <div className={styles.reaction}>
-                        <span className={styles.emoji}>{reaction}</span>
+                        <span
+                          className={styles.emoji}
+                          onClick={addReaction.bind(
+                            this,
+                            project.id,
+                            project.user_id,
+                            reaction
+                          )}
+                        >
+                          {emoji}
+                        </span>
                         <span className={styles.count}>
                           {Math.floor(Math.random() * 999 + 1)}
                         </span>
