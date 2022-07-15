@@ -8,4 +8,10 @@ type Artwork = {
   user_id: string;
   username: string;
   users: [];
+  reactionsCount?: {
+    Favorite?: string;
+    Hot?: string;
+    Amazing?: string;
+    Mindblowing?: string;
+  };
 };

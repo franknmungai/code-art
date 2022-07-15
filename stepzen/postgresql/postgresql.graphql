@@ -145,6 +145,18 @@ type Query {
       table: "reactions"
       configuration: "postgresql_config"
     )
+  getReactionsByType(artwork_id: ID!, type: String!): Reactions
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT * FROM "reactions"
+      WHERE "artwork_id" = $1 AND
+      "emoji" = $2
+      """
+      configuration: "postgresql_config"
+    )
+
   getUsersList: [Users]
     @dbquery(
       type: "postgresql"

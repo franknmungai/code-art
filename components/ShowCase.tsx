@@ -25,7 +25,6 @@ const ShowCase = () => {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Favorite);
   const [artwork, setArtWork] = useState(sampleProjects);
   const { data } = useQuery(GET_ARTWORK);
-  const { data: session } = useSession();
 
   useEffect(() => {
     let projects = data?.getArtworkList;
@@ -33,52 +32,57 @@ const ShowCase = () => {
       return;
     }
     for (let project of projects) {
-      let [fav, hot, amazing, mindblowing] = [0, 0, 0, 0];
+      let [Favorite, Hot, Amazing, Mindblowing] = [0, 0, 0, 0];
       project.reactionsList.forEach((reaction: string) => {
         if (reaction === Tabs.Favorite) {
-          fav++;
+          Favorite++;
         }
         if (reaction === Tabs.Hot) {
-          hot++;
+          Hot++;
         }
         if (reaction === Tabs.Amazing) {
-          amazing++;
+          Amazing++;
         }
         if (reaction === Tabs.Mindblowing) {
-          mindblowing++;
+          Mindblowing++;
         }
       });
 
-      const rand = () => Math.floor(Math.random() * 999 + 1);
       project = {
         ...project,
         reactionsCount: {
-          fav, //[Tabs.Favorite]: fav ?? rand(),
-          amazing, //[Tabs.Amazing]: amazing ?? rand(),
-          mindblowing, // [Tabs.Mindblowing]: mindblowing ?? rand(),
-          hot, //[Tabs.Hot]: hot ?? rand(),
+          Favorite, //[Tabs.Favorite]: fav ?? rand(),
+          Amazing, //[Tabs.Amazing]: amazing ?? rand(),
+          Mindblowing, // [Tabs.Mindblowing]: mindblowing ?? rand(),
+          Hot, //[Tabs.Hot]: hot ?? rand(),
         },
       };
+
+      console.log('useEffect', project.reactionsCount);
     }
 
     const artWorkCopy = JSON.parse(JSON.stringify(artwork));
 
     artWorkCopy['Favorite'] = projects.sort(
-      (a: any, b: any) => b.reactionsCount.fav - a.reactionsCount.fav
+      (a: any, b: any) => b.reactionsCount.Favorite - a.reactionsCount.Favorite
     );
     artWorkCopy['Hot'] = projects.sort(
-      (a: any, b: any) => b.reactionsCount.hot - a.reactionsCount.hot
+      (a: any, b: any) => b.reactionsCount.Hot - a.reactionsCount.Hot
     );
     artWorkCopy['Amazing'] = projects.sort(
-      (a: any, b: any) => b.reactionsCount.amazing - a.reactionsCount.amazing
+      (a: any, b: any) => b.reactionsCount.Amazing - a.reactionsCount.Amazing
     );
     artWorkCopy['Mindblowing'] = projects.sort(
       (a: any, b: any) =>
-        b.reactionsCount.mindblowing - a.reactionsCount.mindblowing
+        b.reactionsCount.Mindblowing - a.reactionsCount.Mindblowing
     );
 
     setArtWork(artWorkCopy);
   }, [data]);
+
+  useEffect(() => {
+    console.log({ artwork });
+  }, [artwork]);
 
   const isActive = (tab: Tabs) => activeTab === tab;
 
@@ -129,21 +133,21 @@ const ShowCase = () => {
 
       {/* Projects */}
       <div className={styles.projects}>
-        {Array(6)
-          .fill(artwork[activeTab][0])
-          .map((project: Artwork, index) => {
-            return (
-              <div
-                className={styles.piece}
-                key={`${activeTab}-${index}` /*project?.id*/}
-              >
-                {/* <div className={styles.project}>{project.id}</div> */}
-                <iframe
-                  title="output"
-                  sandbox="allow-scripts"
-                  // width="400px"
-                  // height="400px"
-                  srcDoc={`<html>
+        {artwork[activeTab].map((project: Artwork, index) => {
+          console.log('Reactions count', project?.reactionsCount);
+
+          return (
+            <div
+              className={styles.piece}
+              key={`${activeTab}-${index}` /*project?.id*/}
+            >
+              {/* <div className={styles.project}>{project.id}</div> */}
+              <iframe
+                title="output"
+                sandbox="allow-scripts"
+                // width="400px"
+                // height="400px"
+                srcDoc={`<html>
                 <style>${project?.css}
                 canvas{width:150%; height:150%;}
                 </style>
@@ -151,45 +155,44 @@ const ShowCase = () => {
                 <script>${project?.js}</script>
                 </body>
               </html>`}
-                  className={styles.project}
-                />
+                className={styles.project}
+              />
 
-                <div className={`${styles.details} ${styles.show}`}>
-                  <div className={styles.user}>
-                    <MdPersonOutline size={24} />
-                    <span>By {project?.username}</span>
-                  </div>
-
-                  <div className={styles.reactions}>
-                    {tabsContent.map(([reaction, emoji]) => (
-                      <div className={styles.reaction}>
-                        <span
-                          className={styles.emoji}
-                          onClick={addReaction.bind(
-                            this,
-                            project.id,
-                            project.user_id,
-                            reaction
-                          )}
-                        >
-                          {emoji}
-                        </span>
-                        <span className={styles.count}>
-                          {Math.floor(Math.random() * 999 + 1)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Link href={`/artwork/${project?.id}`}>
-                    <div>
-                      <MdOutlineLaunch size={20} />
-                    </div>
-                  </Link>
+              <div className={`${styles.details} ${styles.show}`}>
+                <div className={styles.user}>
+                  <MdPersonOutline size={24} />
+                  <span>By {project?.username}</span>
                 </div>
+
+                <div className={styles.reactions}>
+                  {tabsContent.map(([reaction, emoji]) => (
+                    <div className={styles.reaction}>
+                      <span
+                        className={styles.emoji}
+                        onClick={() =>
+                          addReaction(project?.id, project?.user_id, reaction)
+                        }
+                      >
+                        {emoji}
+                      </span>
+                      <span className={styles.count}>
+                        {/* {Math.floor(Math.random()/ * 999 + 1)} */}
+                        {/* @ts-ignore */}
+                        {/* {project?.reactionsCount[reaction]} */}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <Link href={`/artwork/${project?.id}`}>
+                  <div>
+                    <MdOutlineLaunch size={20} />
+                  </div>
+                </Link>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

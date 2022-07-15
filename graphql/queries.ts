@@ -47,3 +47,13 @@ export const GET_ARTWORK_BY_ID = gql`
     }
   }
 `;
+
+export const GET_REACTIONS = gql`
+  query MyQuery($artwork_id: String!, type: String!) {
+  getReactionsByType(artwork_id: $artwork_id, type: $type) {
+    emoji
+    id
+    created_at
+  }
+}
+`;
