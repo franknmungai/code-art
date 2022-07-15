@@ -267,12 +267,7 @@ type Mutation {
       dml: DELETE
       configuration: "postgresql_config"
     )
-  insertReactions(
-    created_at: DateTime!
-    emoji: String!
-    artwork_id: ID!
-    user_id: ID!
-  ): Reactions
+  insertReactions(emoji: String!, artwork_id: ID!, user_id: ID!): Reactions
     @dbquery(
       type: "postgresql"
       schema: "public"

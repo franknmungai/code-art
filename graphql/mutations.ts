@@ -35,3 +35,17 @@ export const CREATE_ARTWORK = gql`
     }
   }
 `;
+
+export const ADD_REACTION = gql`
+  mutation MyMutation($artwork_id: ID!, $user_id: ID!, $reaction: String!) {
+    insertReactions(
+      emoji: $reaction
+      artwork_id: $artwork_id
+      user_id: $user_id
+    ) {
+      created_at
+      user_id
+      emoji
+    }
+  }
+`;
