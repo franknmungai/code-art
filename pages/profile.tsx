@@ -39,7 +39,7 @@ const ProfilePage = () => {
         <h2>Your designs</h2>
         <div className={styles.projects}>
           {data?.getUserByEmail?.artworkList?.map((project: Artwork) => (
-            <div className={styles.user_art}>
+            <div className={styles.user_art} key={project.id}>
               <ArtPiece project={project} key={project.id} />
               {/* <button>Delete</button> */}
               <AiOutlineDelete size={20} className={styles.del_icon} />

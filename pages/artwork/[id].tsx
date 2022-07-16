@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import client from '../../apollo-client';
 import Editor2 from '../../components/Editor2';
@@ -51,13 +51,25 @@ const Create = () => {
     }
   };
 
+  const runJs = (jsCode?: string) => {
+    setSrcDoc(`
+      <html>
+          <style>${css}</style>
+          <body>
+            ${html}
+            <script>${jsCode || js}</script>
+          </body>     
+      </html>
+  `);
+  };
+
   useEffect(() => {
     setHtml(data?.getArtwork?.html);
     setCss(data?.getArtwork?.css);
     setJs(data?.getArtwork?.js);
 
     runJs(data?.getArtwork?.js);
-  }, [data]);
+  }, [data, runJs]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -75,18 +87,6 @@ const Create = () => {
 
     return () => clearTimeout(timeout);
   }, [html, css]);
-
-  const runJs = (jsCode?: string) => {
-    setSrcDoc(`
-      <html>
-          <style>${css}</style>
-          <body>
-            ${html}
-            <script>${jsCode || js}</script>
-          </body>     
-      </html>
-  `);
-  };
 
   const getValue = (lang: Lang) => {
     switch (lang) {
@@ -138,11 +138,12 @@ const Create = () => {
 
   return (
     <div className={styles.container}>
-      {/* {isOwner() && <button>Update</button>} */}
       <div className={styles.topbar}>
-        <button className={styles.btn} onClick={update}>
-          Update
-        </button>
+        {isOwner() && (
+          <button className={styles.btn} onClick={update}>
+            Update
+          </button>
+        )}
         <Link href="/create">
           <button className={`${styles.btn} ${styles.new}`}>New</button>
         </Link>
@@ -175,6 +176,7 @@ const Create = () => {
                   width="28px"
                   height="28px"
                   layout="fixed"
+                  alt=""
                 />
                 <span>{name}</span>
               </div>
