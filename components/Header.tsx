@@ -42,8 +42,6 @@ const Header = () => {
 
   useEffect(() => {
     addUser();
-
-    console.log({ session });
   }, [session]);
 
   return (
