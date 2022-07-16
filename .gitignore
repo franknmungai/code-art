@@ -35,3 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 
 pages/api/functions/node_modules
+
+utils/env.js
