@@ -15,3 +15,18 @@ type Artwork = {
     Mindblowing?: string;
   };
 };
+
+type User = {
+  artworkList: Artwork[];
+  avatar: string;
+  created_at: string;
+  email: string;
+  followers: number;
+  followersList: any[];
+  following: number;
+  followingList: any[];
+  github_uid: string;
+  id: string;
+  username: string;
+  avatar: string;
+};

@@ -1,0 +1,23 @@
+.reaction {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.reaction .emoji {
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: all 200ms ease-in-out;
+  text-align: center;
+}
+
+.emoji:hover {
+  background-color: rgb(160, 165, 165);
+}
+.reaction .count {
+  font-size: 0.7rem;
+  color: rgba(30, 30, 30, 0.5);
+}

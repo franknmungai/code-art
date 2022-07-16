@@ -1,12 +1,12 @@
 import { useQuery } from '@apollo/client';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MdOutlineLaunch, MdPersonOutline } from 'react-icons/md';
 import client from '../apollo-client';
 import { ADD_REACTION } from '../graphql/mutations';
-import { GET_ARTWORK, GET_REACTIONS } from '../graphql/queries';
+import { GET_ARTWORK } from '../graphql/queries';
 import styles from '../styles/showcase.module.css';
+import DisplayReactions from './DisplayReactions';
 
 enum Tabs {
   Favorite = 'Favorite',
@@ -78,16 +78,6 @@ const ShowCase = () => {
     setArtWork(artWorkCopy);
   }, [data]);
 
-  useEffect(() => {
-    let projects = data?.getArtworkList;
-
-    async function getReactionsCount() {
-      for (const project of projects) {
-        // project =
-      }
-    }
-  }, [data]);
-
   const isActive = (tab: Tabs) => activeTab === tab;
 
   const setActive = (tab: Tabs) => setActiveTab(tab);
@@ -123,8 +113,6 @@ const ShowCase = () => {
       {/* Tabs */}
       <div className={styles.tabs}>
         {tabsContent.map(([name, icon]) => {
-          let reactionsCount = 0;
-
           return (
             <span
               key={name}
@@ -140,23 +128,11 @@ const ShowCase = () => {
       {/* Projects */}
       <div className={styles.projects}>
         {artwork[activeTab].map((project: Artwork, index) => {
-          console.log('reactionsCount ' + project.reactionsCount);
-
-          const tryEval = (exp: any) => {
-            try {
-              return exp;
-            } catch (error) {
-              console.log(error);
-              return null;
-            }
-          };
           return (
             <div className={styles.piece} key={`${activeTab}-${index}`}>
               <iframe
                 title="output"
                 sandbox="allow-scripts"
-                // width="400px"
-                // height="400px"
                 srcDoc={`<html>
                 <style>${project?.css}
                 canvas{width:150%; height:150%;}
@@ -176,20 +152,16 @@ const ShowCase = () => {
 
                 <div className={styles.reactions}>
                   {tabsContent.map(([reaction, emoji]) => (
-                    <div className={styles.reaction}>
-                      <span
-                        className={styles.emoji}
-                        onClick={() =>
-                          addReaction(project?.id, project?.user_id, reaction)
-                        }
-                      >
-                        {emoji}
-                      </span>
-                      <DisplayReactionsCount
-                        artwork_id={project.id}
-                        type={reaction}
-                      />
-                    </div>
+                    <DisplayReactions
+                      artwork_id={project.id}
+                      type={reaction}
+                      reaction={reaction}
+                      emoji={emoji}
+                      onClick={() =>
+                        addReaction(project?.id, project?.user_id, reaction)
+                      }
+                      key={reaction}
+                    />
                   ))}
                 </div>
 
@@ -208,36 +180,3 @@ const ShowCase = () => {
 };
 
 export default ShowCase;
-
-interface Props {
-  artwork_id: string;
-  type: string;
-}
-const DisplayReactionsCount = (props: Props) => {
-  const { artwork_id, type } = props;
-  const [count, setCount] = useState(0);
-
-  const getReactions = async () => {
-    try {
-      const { data } = await client.query({
-        query: GET_REACTIONS,
-        variables: {
-          artwork_id,
-          type,
-        },
-      });
-
-      setCount(data.getReactionsByType?.length);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getReactions();
-  }, []);
-
-  useEffect(() => console.log({ count }), [count]);
-
-  return <span className={styles.count}>{count}</span>;
-};

@@ -181,7 +181,7 @@ type Query {
       """
       configuration: "postgresql_config"
     )
-  getUserByEmail(email: String!): [Users]
+  getUserByEmail(email: String!): Users
     @dbquery(
       type: "postgresql"
       query: """

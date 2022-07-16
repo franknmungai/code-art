@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import styles from '../styles/header.module.css';
-import { BsGithub, BsPerson } from 'react-icons/bs';
+import { BsGithub } from 'react-icons/bs';
+import { FiLogOut } from 'react-icons/fi';
 import { GET_USER_BY_EMAIL } from '../graphql/queries';
 import { CREATE_USER } from '../graphql/mutations';
 import apolloClient from '../apollo-client';
@@ -54,16 +55,20 @@ const Header = () => {
           <BsGithub className={styles.icon} /> Sign in with Github
         </button>
       ) : (
-        // <button className={styles.btn}>
-        //   <BsPerson className={styles.icon} /> {session?.user?.name}
-        // </button>
-        <div className={styles.accountInfo} onClick={handleAuth}>
-          <img
-            src={session.user?.image || ''}
-            alt="avatar"
-            className={styles.avatar}
-          />
-          <span>{session.user?.name}</span>
+        <div className={styles.account}>
+          <Link href={`/profile`}>
+            <div className={styles.accountInfo}>
+              <img
+                src={session.user?.image || ''}
+                alt="avatar"
+                className={styles.avatar}
+              />
+              <span>{session.user?.name}</span>
+            </div>
+          </Link>
+          <div className={styles.logout} onClick={handleAuth}>
+            Logout <FiLogOut />
+          </div>
         </div>
       )}
     </div>
