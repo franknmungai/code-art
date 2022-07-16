@@ -69,7 +69,7 @@ const Create = () => {
     setJs(data?.getArtwork?.js);
 
     runJs(data?.getArtwork?.js);
-  }, [data, runJs]);
+  }, [data]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
