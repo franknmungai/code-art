@@ -17,7 +17,7 @@ module.exports = withTM({
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
-  webpack: (config) => {
+  webpack: (config, options) => {
     const rule = config.module.rules
       .find((rule) => rule.oneOf)
       .oneOf.find(
@@ -33,23 +33,25 @@ module.exports = withTM({
       ];
     }
 
-    config.plugins.push(
-      new MonacoWebpackPlugin({
-        languages: [
-          'json',
-          'markdown',
-          'css',
-          'typescript',
-          'javascript',
-          'html',
-          'graphql',
-          'python',
-          'scss',
-          'yaml',
-        ],
-        filename: 'static/[name].worker.js',
-      })
-    );
+    if (!options.isServer) {
+      config.plugins.push(
+        new MonacoWebpackPlugin({
+          languages: [
+            'json',
+            'markdown',
+            'css',
+            'typescript',
+            'javascript',
+            'html',
+            'graphql',
+            'python',
+            'scss',
+            'yaml',
+          ],
+          filename: 'static/[name].worker.js',
+        })
+      );
+    }
     return config;
   },
 });

@@ -37,3 +37,5 @@ yarn-error.log*
 pages/api/functions/node_modules
 
 utils/env.js
+# Local Netlify folder
+.netlify
