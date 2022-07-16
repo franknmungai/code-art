@@ -25,6 +25,7 @@
 .editorTabs {
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   background: #17303b;
   padding: 1rem;
 
@@ -61,17 +62,33 @@
   border-bottom: 3px solid rgba(255, 166, 0, 0.6);
 }
 
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 1.8rem;
+}
+
+.icon {
+  color: rgb(159, 146, 247);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.icon:hover {
+  padding: 0.2rem;
+  border-radius: 50%;
+  background-color: rgb(185, 113, 19);
+  color: white;
+}
 .btn {
-  padding: 0.8rem 1.6rem;
-  border-radius: 0.4rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5rem;
   margin-bottom: 0.5rem;
   border: none;
   background-color: slateblue;
   color: white;
-  background-color: #4158d0;
-  background-color: #fbab7e;
-  background-image: linear-gradient(62deg, #fbab7e 0%, #f5c448 100%);
-
-  font-size: 1.1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  letter-spacing: 1.5px;
   font-weight: bold;
 }

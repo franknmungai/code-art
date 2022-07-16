@@ -3,11 +3,13 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import client from '../../apollo-client';
 import Editor2 from '../../components/Editor2';
 import { UPDATE_ARTWORK } from '../../graphql/mutations';
 import { GET_ARTWORK_BY_ID } from '../../graphql/queries';
 import styles from '../../styles/create-page.module.css';
+import { VscPlay, VscVmRunning } from 'react-icons/vsc';
 
 enum Lang {
   html = 'html',
@@ -52,6 +54,8 @@ const Create = () => {
     setHtml(data?.getArtwork?.html);
     setCss(data?.getArtwork?.css);
     setJs(data?.getArtwork?.js);
+
+    runJs(data?.getArtwork?.js);
   }, [data]);
 
   useEffect(() => {
@@ -62,13 +66,26 @@ const Create = () => {
           <body>
             ${html}
             <script>${js}</script>
+
           </body>     
       </html>
   `);
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [html, css, js]);
+  }, [html, css]);
+
+  const runJs = (jsCode?: string) => {
+    setSrcDoc(`
+      <html>
+          <style>${css}</style>
+          <body>
+            ${html}
+            <script>${jsCode || js}</script>
+          </body>     
+      </html>
+  `);
+  };
 
   const getValue = (lang: Lang) => {
     switch (lang) {
@@ -94,6 +111,8 @@ const Create = () => {
   };
 
   const update = async () => {
+    const id = toast.loading('Updating your project...');
+
     try {
       await client.mutate({
         mutation: UPDATE_ARTWORK,
@@ -104,21 +123,37 @@ const Create = () => {
           js,
         },
       });
+
+      toast.success('Project updated successfully 🎉', {
+        id,
+      });
     } catch (error) {
       console.log(error);
+      toast.success('Could not update project, try again later', {
+        id,
+      });
     }
   };
 
   return (
     <div className={styles.container}>
       {/* {isOwner() && <button>Update</button>} */}
-      {/* <button className={styles.btn}>Update</button> */}
+      <div className={styles.topbar}>
+        <button className={styles.btn} onClick={update}>
+          Update
+        </button>
+
+        <code>
+          To Run JS, click on the <VscPlay /> button
+        </code>
+      </div>
+
       <div className={styles.flex}>
         <iframe
           title="output"
           sandbox="allow-scripts"
           width="700px"
-          height="700px"
+          height="650px"
           srcDoc={srcDoc}
           className={styles.output}
         />
@@ -140,13 +175,20 @@ const Create = () => {
                 <span>{name}</span>
               </div>
             ))}
+
+            <VscPlay
+              className={styles.icon}
+              size={24}
+              onClick={() => runJs()}
+            />
           </div>
+
           {lang === Lang.html && (
             <Editor2
               onChange={(value, e) => setHtml(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="80vh"
+              height="75vh"
               language="html"
               className={styles.editor}
             />
@@ -156,7 +198,7 @@ const Create = () => {
               onChange={(value, e) => setCss(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="80vh"
+              height="75vh"
               language="css"
               className={styles.editor}
             />
@@ -166,7 +208,7 @@ const Create = () => {
               onChange={(value, e) => setJs(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="80vh"
+              height="75vh"
               language="javascript"
               className={styles.editor}
             />

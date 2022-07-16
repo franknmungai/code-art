@@ -51,8 +51,8 @@ export const ADD_REACTION = gql`
 `;
 
 export const UPDATE_ARTWORK = gql`
-  mutation MyMutation($id: ID!, $html: String!, $css: String!, js: String!){
-    updateArtwork(id: $id, html: $html, $css: String!) {
+  mutation MyMutation($id: ID!, $html: String!, $css: String!, $js: String!) {
+    updateArtwork(id: $id, html: $html, css: $css, js: $js) {
       id
       html
       css
