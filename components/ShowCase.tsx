@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { MdOutlineLaunch, MdPersonOutline } from 'react-icons/md';
 import client from '../apollo-client';
 import { ADD_REACTION } from '../graphql/mutations';
-import { GET_ARTWORK } from '../graphql/queries';
+import { GET_ARTWORK, GET_REACTIONS } from '../graphql/queries';
 import styles from '../styles/showcase.module.css';
 
 enum Tabs {
@@ -57,8 +57,6 @@ const ShowCase = () => {
           Hot, //[Tabs.Hot]: hot ?? rand(),
         },
       };
-
-      console.log('useEffect', project.reactionsCount);
     }
 
     const artWorkCopy = JSON.parse(JSON.stringify(artwork));
@@ -81,8 +79,14 @@ const ShowCase = () => {
   }, [data]);
 
   useEffect(() => {
-    console.log({ artwork });
-  }, [artwork]);
+    let projects = data?.getArtworkList;
+
+    async function getReactionsCount() {
+      for (const project of projects) {
+        // project =
+      }
+    }
+  }, [data]);
 
   const isActive = (tab: Tabs) => activeTab === tab;
 
@@ -119,6 +123,8 @@ const ShowCase = () => {
       {/* Tabs */}
       <div className={styles.tabs}>
         {tabsContent.map(([name, icon]) => {
+          let reactionsCount = 0;
+
           return (
             <span
               key={name}
@@ -134,14 +140,18 @@ const ShowCase = () => {
       {/* Projects */}
       <div className={styles.projects}>
         {artwork[activeTab].map((project: Artwork, index) => {
-          console.log('Reactions count', project?.reactionsCount);
+          console.log('reactionsCount ' + project.reactionsCount);
 
+          const tryEval = (exp: any) => {
+            try {
+              return exp;
+            } catch (error) {
+              console.log(error);
+              return null;
+            }
+          };
           return (
-            <div
-              className={styles.piece}
-              key={`${activeTab}-${index}` /*project?.id*/}
-            >
-              {/* <div className={styles.project}>{project.id}</div> */}
+            <div className={styles.piece} key={`${activeTab}-${index}`}>
               <iframe
                 title="output"
                 sandbox="allow-scripts"
@@ -175,11 +185,10 @@ const ShowCase = () => {
                       >
                         {emoji}
                       </span>
-                      <span className={styles.count}>
-                        {/* {Math.floor(Math.random()/ * 999 + 1)} */}
-                        {/* @ts-ignore */}
-                        {/* {project?.reactionsCount[reaction]} */}
-                      </span>
+                      <DisplayReactionsCount
+                        artwork_id={project.id}
+                        type={reaction}
+                      />
                     </div>
                   ))}
                 </div>
@@ -199,3 +208,36 @@ const ShowCase = () => {
 };
 
 export default ShowCase;
+
+interface Props {
+  artwork_id: string;
+  type: string;
+}
+const DisplayReactionsCount = (props: Props) => {
+  const { artwork_id, type } = props;
+  const [count, setCount] = useState(0);
+
+  const getReactions = async () => {
+    try {
+      const { data } = await client.query({
+        query: GET_REACTIONS,
+        variables: {
+          artwork_id,
+          type,
+        },
+      });
+
+      setCount(data.getReactionsByType?.length);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getReactions();
+  }, []);
+
+  useEffect(() => console.log({ count }), [count]);
+
+  return <span className={styles.count}>{count}</span>;
+};
