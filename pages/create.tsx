@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Editor2 from '../components/Editor2';
 import { CREATE_ARTWORK } from '../graphql/mutations';
+import { GET_ARTWORK } from '../graphql/queries';
 import styles from '../styles/create-page.module.css';
 
 enum Lang {
@@ -79,6 +80,7 @@ const Create = () => {
       user_id: 1,
       username: session?.user?.name,
     },
+    refetchQueries: [GET_ARTWORK],
   });
 
   const createArtwork = async () => {

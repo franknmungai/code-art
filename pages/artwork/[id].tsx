@@ -3,14 +3,16 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import client from '../../apollo-client';
 import Editor2 from '../../components/Editor2';
+import { UPDATE_ARTWORK } from '../../graphql/mutations';
 import { GET_ARTWORK_BY_ID } from '../../graphql/queries';
 import styles from '../../styles/create-page.module.css';
 
 enum Lang {
   html = 'html',
   css = 'css',
-  js = 'javascript',
+  js = 'js',
 }
 const Create = () => {
   const [srcDoc, setSrcDoc] = useState('');
@@ -47,29 +49,35 @@ const Create = () => {
   };
 
   useEffect(() => {
+    setHtml(data?.getArtwork?.html);
+    setCss(data?.getArtwork?.css);
+    setJs(data?.getArtwork?.js);
+  }, [data]);
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
       <html>
-          <style>${data?.getArtwork?.css}</style>
+          <style>${css}</style>
           <body>
-            ${data?.getArtwork?.html}
-            <script>${data?.getArtwork?.js}</script>
+            ${html}
+            <script>${js}</script>
           </body>     
       </html>
   `);
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [data]);
+  }, [html, css, js]);
 
   const getValue = (lang: Lang) => {
     switch (lang) {
       case Lang.html:
-        return data?.getArtwork?.html as string;
+        return html as string;
       case Lang.css:
-        return data?.getArtwork?.css as string;
+        return css as string;
       case Lang.js:
-        return data?.getArtwork?.js as string;
+        return js as string;
       default:
         break;
     }
@@ -81,8 +89,30 @@ const Create = () => {
     [Lang.js, 'js.png'],
   ];
 
+  const isOwner = () => {
+    return session?.user?.email === data?.getArtwork?.users?.email;
+  };
+
+  const update = async () => {
+    try {
+      await client.mutate({
+        mutation: UPDATE_ARTWORK,
+        variables: {
+          id: data?.getArtwork?.id,
+          html,
+          css,
+          js,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={styles.container}>
+      {/* {isOwner() && <button>Update</button>} */}
+      {/* <button className={styles.btn}>Update</button> */}
       <div className={styles.flex}>
         <iframe
           title="output"

@@ -80,4 +80,12 @@
 
 .del_icon {
   margin-left: -1rem;
+  /* display: none; */
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.user_art:hover .del_icon {
+  /* display: block; */
+  opacity: 1;
 }

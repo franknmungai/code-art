@@ -239,6 +239,18 @@ type Mutation {
       dml: INSERT
       configuration: "postgresql_config"
     )
+
+  updateArtwork(id: ID!, html: String!, css: String!, js: String!): Artwork
+    @dbquery(
+      type: "postgresql"
+      query: """
+            UPDATE "artwork"
+      SET "html" = $2, "css" = $3, "js" = $4
+      WHERE "id" = $1;
+      """
+      configuration: "postgresql_config"
+    )
+
   deleteArtwork(id: ID!): Artwork
     @dbquery(
       type: "postgresql"
