@@ -1,8 +1,10 @@
 import { useMutation } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { VscPlay } from 'react-icons/vsc';
 import Editor2 from '../components/Editor2';
 import { CREATE_ARTWORK } from '../graphql/mutations';
 import { GET_ARTWORK } from '../graphql/queries';
@@ -18,6 +20,7 @@ const Create = () => {
   const [lang, setLang] = useState(Lang.html);
   const { data: session } = useSession();
 
+  const router = useRouter();
   const [html, setHtml] = useState<string | undefined>('');
   const [css, setCss] = useState<string | undefined>('');
   const [js, setJs] = useState<string | undefined>('');
@@ -52,7 +55,19 @@ const Create = () => {
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [html, css, js]);
+  }, [html, css]);
+
+  const runJs = () => {
+    setSrcDoc(`
+      <html>
+          <style>${css}</style>
+          <body>
+            ${html}
+            <script>${js}</script>
+          </body>     
+      </html>
+  `);
+  };
 
   const getValue = (lang: Lang) => {
     switch (lang) {
@@ -85,7 +100,7 @@ const Create = () => {
   });
 
   const createArtwork = async () => {
-    const id = toast.loading('Creating your piece of art.');
+    const id = toast.loading('Creating your piece of art. 🚀');
 
     try {
       const {
@@ -98,6 +113,10 @@ const Create = () => {
           id,
         }
       );
+
+      setTimeout(() => {
+        router.push('/profile');
+      }, 1000);
     } catch (error) {
       toast.error('Could not upload your artwork. Try again', {
         id,
@@ -107,13 +126,21 @@ const Create = () => {
 
   return (
     <div className={styles.container}>
-      <button onClick={createArtwork}>Create</button>
+      <div className={styles.topbar}>
+        <button className={styles.btn} onClick={createArtwork}>
+          Create
+        </button>
+
+        <code style={{ fontSize: '1rem' }}>
+          To Run JS, click on the <VscPlay /> button
+        </code>
+      </div>
       <div className={styles.flex}>
         <iframe
           title="output"
           sandbox="allow-scripts"
           width="700px"
-          height="700px"
+          height="680px"
           srcDoc={srcDoc}
           className={styles.output}
         />
@@ -135,13 +162,19 @@ const Create = () => {
                 <span>{name}</span>
               </div>
             ))}
+
+            <VscPlay
+              className={styles.icon}
+              size={24}
+              onClick={() => runJs()}
+            />
           </div>
           {lang === Lang.html && (
             <Editor2
               onChange={(value, e) => setHtml(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="80vh"
+              height="78.5vh"
               language="html"
               className={styles.editor}
             />
@@ -151,7 +184,7 @@ const Create = () => {
               onChange={(value, e) => setCss(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="80vh"
+              height="78.5vh"
               language="css"
               className={styles.editor}
             />
@@ -161,7 +194,7 @@ const Create = () => {
               onChange={(value, e) => setJs(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="80vh"
+              height="78.5vh"
               language="javascript"
               className={styles.editor}
             />

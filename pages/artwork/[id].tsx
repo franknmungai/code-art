@@ -10,6 +10,7 @@ import { UPDATE_ARTWORK } from '../../graphql/mutations';
 import { GET_ARTWORK_BY_ID } from '../../graphql/queries';
 import styles from '../../styles/create-page.module.css';
 import { VscPlay, VscVmRunning } from 'react-icons/vsc';
+import Link from 'next/link';
 
 enum Lang {
   html = 'html',
@@ -111,7 +112,7 @@ const Create = () => {
   };
 
   const update = async () => {
-    const id = toast.loading('Updating your project...');
+    const id = toast.loading('Updating your project. 🚀');
 
     try {
       await client.mutate({
@@ -142,8 +143,11 @@ const Create = () => {
         <button className={styles.btn} onClick={update}>
           Update
         </button>
+        <Link href="/create">
+          <button className={`${styles.btn} ${styles.new}`}>New</button>
+        </Link>
 
-        <code>
+        <code style={{ fontSize: '1rem' }}>
           To Run JS, click on the <VscPlay /> button
         </code>
       </div>
@@ -153,7 +157,7 @@ const Create = () => {
           title="output"
           sandbox="allow-scripts"
           width="700px"
-          height="650px"
+          height="680px"
           srcDoc={srcDoc}
           className={styles.output}
         />
@@ -188,7 +192,7 @@ const Create = () => {
               onChange={(value, e) => setHtml(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="75vh"
+              height="78.5vh"
               language="html"
               className={styles.editor}
             />
@@ -198,7 +202,7 @@ const Create = () => {
               onChange={(value, e) => setCss(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="75vh"
+              height="78.5vh"
               language="css"
               className={styles.editor}
             />
@@ -208,7 +212,7 @@ const Create = () => {
               onChange={(value, e) => setJs(value)}
               value={getValue(lang) as string}
               width="50vw"
-              height="75vh"
+              height="78.5vh"
               language="javascript"
               className={styles.editor}
             />

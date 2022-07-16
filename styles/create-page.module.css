@@ -91,4 +91,9 @@
   font-size: 0.9rem;
   letter-spacing: 1.5px;
   font-weight: bold;
+  box-shadow: 2px 2px 3px 3px #f1f1f1;
+}
+
+.btn.new {
+  background-color: royalblue;
 }

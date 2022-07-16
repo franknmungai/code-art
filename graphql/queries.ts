@@ -30,6 +30,10 @@ export const GET_ARTWORK = gql`
       css
       js
       created_at
+      favorite
+      hot
+      amazing
+      mindblowing
       reactionsList {
         id
         emoji

@@ -15,6 +15,9 @@ enum Tabs {
   Mindblowing = 'Mindblowing',
 }
 
+type sp = {
+  Tabs: any[];
+};
 const sampleProjects = {
   [Tabs.Favorite]: [], //['1', '2', '3', '4', '17', '18'],
   [Tabs.Hot]: [], //['5', '6', '7', '8', '19', '20'],
@@ -31,49 +34,59 @@ const ShowCase = () => {
     if (!projects) {
       return;
     }
-    for (let project of projects) {
-      let [Favorite, Hot, Amazing, Mindblowing] = [0, 0, 0, 0];
-      project.reactionsList.forEach((reaction: string) => {
-        if (reaction === Tabs.Favorite) {
-          Favorite++;
-        }
-        if (reaction === Tabs.Hot) {
-          Hot++;
-        }
-        if (reaction === Tabs.Amazing) {
-          Amazing++;
-        }
-        if (reaction === Tabs.Mindblowing) {
-          Mindblowing++;
-        }
-      });
+    // for (let project of projects) {
+    //   let [Favorite, Hot, Amazing, Mindblowing] = [0, 0, 0, 0];
+    //   project.reactionsList.forEach((reaction: string) => {
+    //     if (reaction === Tabs.Favorite) {
+    //       Favorite++;
+    //     }
+    //     if (reaction === Tabs.Hot) {
+    //       Hot++;
+    //     }
+    //     if (reaction === Tabs.Amazing) {
+    //       Amazing++;
+    //     }
+    //     if (reaction === Tabs.Mindblowing) {
+    //       Mindblowing++;
+    //     }
+    //   });
 
-      project = {
-        ...project,
-        reactionsCount: {
-          Favorite, //[Tabs.Favorite]: fav ?? rand(),
-          Amazing, //[Tabs.Amazing]: amazing ?? rand(),
-          Mindblowing, // [Tabs.Mindblowing]: mindblowing ?? rand(),
-          Hot, //[Tabs.Hot]: hot ?? rand(),
-        },
-      };
-    }
+    //   project.reactionsCount = {
+    //     Favorite,
+    //     Amazing,
+    //     Mindblowing,
+    //     Hot,
+    //   };
+    //   project = {
+    //     ...project,
+    //     reactionsCount: {
+    //       Favorite, //[Tabs.Favorite]: fav ?? rand(),
+    //       Amazing, //[Tabs.Amazing]: amazing ?? rand(),
+    //       Mindblowing, // [Tabs.Mindblowing]: mindblowing ?? rand(),
+    //       Hot, //[Tabs.Hot]: hot ?? rand(),
+    //     },
+    //   };
+    // }
 
-    const artWorkCopy = JSON.parse(JSON.stringify(artwork));
+    let artWorkCopy = {
+      [Tabs.Favorite]: [...artwork[Tabs.Favorite]],
+      [Tabs.Hot]: [...artwork[Tabs.Hot]],
+      [Tabs.Amazing]: [...artwork[Tabs.Amazing]],
+      [Tabs.Mindblowing]: [...artwork[Tabs.Mindblowing]],
+    }; //JSON.parse(JSON.stringify(artwork));
 
-    artWorkCopy['Favorite'] = projects.sort(
-      (a: any, b: any) => b.reactionsCount.Favorite - a.reactionsCount.Favorite
-    );
-    artWorkCopy['Hot'] = projects.sort(
-      (a: any, b: any) => b.reactionsCount.Hot - a.reactionsCount.Hot
-    );
-    artWorkCopy['Amazing'] = projects.sort(
-      (a: any, b: any) => b.reactionsCount.Amazing - a.reactionsCount.Amazing
-    );
-    artWorkCopy['Mindblowing'] = projects.sort(
-      (a: any, b: any) =>
-        b.reactionsCount.Mindblowing - a.reactionsCount.Mindblowing
-    );
+    artWorkCopy['Favorite'] = projects
+      .slice()
+      .sort((a: any, b: any) => b.favorite - a.favorite);
+    artWorkCopy['Hot'] = projects
+      .slice()
+      .sort((a: any, b: any) => b.hot - a.hot);
+    artWorkCopy['Amazing'] = projects
+      .slice()
+      .sort((a: any, b: any) => b.amazing - a.amazing);
+    artWorkCopy['Mindblowing'] = projects
+      .slice()
+      .sort((a: any, b: any) => b.mindblowing - a.mindblowing);
 
     setArtWork(artWorkCopy);
   }, [data]);

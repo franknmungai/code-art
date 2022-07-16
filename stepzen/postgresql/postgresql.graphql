@@ -12,6 +12,10 @@ type Artwork {
       query: "getUsers"
       arguments: [{ name: "id", field: "user_id" }]
     )
+  favorite: Int!
+  hot: Int!
+  amazing: Int!
+  mindblowing: Int!
 }
 
 """
