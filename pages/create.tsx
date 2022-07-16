@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import Editor2 from '../components/Editor2';
 import { CREATE_ARTWORK } from '../graphql/mutations';
 import { GET_ARTWORK } from '../graphql/queries';
@@ -84,12 +85,24 @@ const Create = () => {
   });
 
   const createArtwork = async () => {
-    const {
-      data: { insertArtwork: newArtWork },
-    } = await createArt();
+    const id = toast.loading('Creating your piece of art.');
 
-    console.log({ newArtWork });
-    alert('Created');
+    try {
+      const {
+        data: { insertArtwork: newArtWork },
+      } = await createArt();
+
+      toast.success(
+        'Your artwork has been created successfully 🎉. We hope it will delight and inspire others',
+        {
+          id,
+        }
+      );
+    } catch (error) {
+      toast.error('Could not upload your artwork. Try again', {
+        id,
+      });
+    }
   };
 
   return (
