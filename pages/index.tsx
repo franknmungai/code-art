@@ -10,7 +10,7 @@ import ShowCase from '../components/ShowCase';
 import Featured from '../components/Featured';
 import Link from 'next/link';
 
-const Home: NextPage = () => {
+const Home = () => {
   const scrollToShowcase = () => {
     const anchor = document.querySelector('#showcase');
     if (anchor)

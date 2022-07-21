@@ -1,4 +1,7 @@
 // next.config.js
+const { parsed: localEnv } = require('dotenv').config();
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const withTM = require('next-transpile-modules')([
@@ -8,15 +11,6 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 module.exports = withTM({
-  env: {
-    GITHUB_ID: process.env.GITHUB_ID,
-    GITHUB_SECRET: process.env.GITHUB_SECRET,
-
-    STEPZEN_API_KEY: process.env.STEPZEN_API_KEY,
-
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-  },
   webpack: (config, options) => {
     const rule = config.module.rules
       .find((rule) => rule.oneOf)
@@ -32,6 +26,10 @@ module.exports = withTM({
         /[\\/]node_modules[\\/]monaco-editor[\\/]/,
       ];
     }
+
+    // add env variables on client end
+    config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+    config.plugins.push(new Dotenv());
 
     if (!options.isServer) {
       config.plugins.push(
@@ -53,5 +51,13 @@ module.exports = withTM({
       );
     }
     return config;
+  },
+
+  env: {
+    GITHUB_ID: process.env.NEXT_PUBLIC_GITHUB_ID,
+    GITHUB_SECRET: process.env.NEXT_PUBLIC_GITHUB_SECRET,
+    STEPZEN_API_KEY: process.env.NEXT_PUBLIC_STEPZEN_API_KEY,
+    NEXTAUTH_SECRET: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXT_PUBLIC_NEXTAUTH_URL,
   },
 });

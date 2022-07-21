@@ -20,7 +20,6 @@ const Editor2: React.FC<Props> = ({
   className,
   onMount,
 }) => {
-  useEffect(() => console.log(language));
   return (
     <Editor
       height={height}

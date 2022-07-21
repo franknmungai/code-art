@@ -5,10 +5,10 @@ import client from '../apollo-client';
 import { Toaster } from 'react-hot-toast';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <ApolloProvider client={client}>
-      <SessionProvider>
+      <SessionProvider session={session}>
         <Toaster />
         <Component {...pageProps} />
       </SessionProvider>

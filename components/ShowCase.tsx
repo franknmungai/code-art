@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { ApolloClient, NormalizedCache, useQuery } from '@apollo/client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { MdOutlineLaunch, MdPersonOutline } from 'react-icons/md';
@@ -24,6 +24,7 @@ const sampleProjects = {
   [Tabs.Amazing]: [], // ['9', '10', '11', '12', '21', '22'],
   [Tabs.Mindblowing]: [], //['13', '14', '15', '16', '23', '24'],
 };
+
 const ShowCase = () => {
   const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Favorite);
   const [artwork, setArtWork] = useState(sampleProjects);

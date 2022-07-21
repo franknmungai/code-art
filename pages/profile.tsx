@@ -17,8 +17,6 @@ const ProfilePage = () => {
     },
   });
 
-  console.log(data?.getUserByEmail?.created_at);
-
   return (
     <>
       <Header />
