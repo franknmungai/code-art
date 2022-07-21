@@ -40,9 +40,6 @@ export const GET_ARTWORK = gql`
         created_at
         user_id
       }
-      users {
-        email
-      }
     }
   }
 `;
@@ -60,6 +57,9 @@ export const GET_ARTWORK_BY_ID = gql`
         emoji
         id
         created_at
+      }
+      users {
+        email
       }
     }
   }
