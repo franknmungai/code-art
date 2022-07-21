@@ -40,6 +40,9 @@ export const GET_ARTWORK = gql`
         created_at
         user_id
       }
+      users {
+        email
+      }
     }
   }
 `;
