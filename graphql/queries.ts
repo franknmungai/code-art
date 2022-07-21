@@ -71,3 +71,15 @@ export const GET_REACTIONS = gql`
     }
   }
 `;
+
+export const GET_USER_BY_ID = gql`
+  query MyQuery($id: ID!) {
+    getUsers(id: $id) {
+      username
+      email
+      avatar
+      followers
+      following
+    }
+  }
+`;

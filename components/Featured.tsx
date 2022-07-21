@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import { useSession } from 'next-auth/react';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { BsGithub, BsTwitter } from 'react-icons/bs';
-import { GET_ARTWORK_BY_ID } from '../graphql/queries';
+import { GET_ARTWORK_BY_ID, GET_USER_BY_ID } from '../graphql/queries';
 import styles from '../styles/featured.module.css';
 
 const Featured = () => {
@@ -12,11 +12,14 @@ const Featured = () => {
     },
   });
 
-  // const {} = useQuery(GET);
+  const { data: users } = useQuery(GET_USER_BY_ID, {
+    variables: {
+      id: '1',
+    },
+  });
 
   const [hovered, setHovered] = useState(false);
 
-  const { data: session } = useSession();
   return (
     <div className={styles.container}>
       <h2>Top Artist</h2>
@@ -46,7 +49,7 @@ const Featured = () => {
             }}
           >
             <img
-              src={session?.user?.image || ''}
+              src={users?.getUsers?.avatar}
               className={styles.profileImage}
             />
           </div>
@@ -66,9 +69,9 @@ const Featured = () => {
             </div>
 
             <div className={styles.info}>
-              <p>{session?.user?.name}</p>
-              <p>Followers 0</p>
-              <p>Following 0</p>
+              <p>{users?.getUsers?.username}</p>
+              <p>Followers {users?.getUsers?.followers}</p>
+              <p>Following {users?.getUsers?.followers}</p>
             </div>
           </div>
         </div>

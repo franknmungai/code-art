@@ -29,7 +29,7 @@ const Header = () => {
       },
     });
 
-    if (!getUserByEmail.length) {
+    if (!getUserByEmail?.username) {
       await apolloClient.mutate({
         mutation: CREATE_USER,
         variables: {
