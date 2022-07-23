@@ -21,7 +21,7 @@ const CustomEditor = () => {
   const [js, setJs] = useState(sampleCode.js);
   const [srcDoc, setSrcDoc] = useState<string>();
 
-  const [lang, setLang] = useState(Lang.html);
+  const [lang, setLang] = useState(Lang.js);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

@@ -21,8 +21,8 @@ export const css = `
 export const js = `
 const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = 650;
+canvas.height = 550;
 
 ctx.shadowColor = 'rgba(0,0,0,0.2)';
 ctx.shadowoffsetY = 10;
