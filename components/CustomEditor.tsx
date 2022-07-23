@@ -1,47 +1,132 @@
-import { useEffect, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styles from '../styles/typing.module.css';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { atomOneDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import * as sampleCode from '../utils/sample-code';
+import Editor2 from './Editor2';
+import Image from 'next/image';
+import { VscPlay } from 'react-icons/vsc';
 
+enum Lang {
+  html = 'html',
+  css = 'css',
+  js = 'javascript',
+}
+const tabs = [
+  [Lang.html, 'html.png'],
+  [Lang.css, 'css.png'],
+  [Lang.js, 'js.png'],
+];
 const CustomEditor = () => {
-  const sampleCode = `<div>
-  <h1>Hello world</h1>
-  <br />
-  <p>Check out this cool piece of art</p>
-</div>`;
-  const [codeIndex, setCodeIndex] = useState(0);
+  const [html, setHtml] = useState(sampleCode.html);
+  const [css, setCss] = useState(sampleCode.css);
+  const [js, setJs] = useState(sampleCode.js);
+  const [srcDoc, setSrcDoc] = useState<string>();
+
+  const [lang, setLang] = useState(Lang.html);
 
   useEffect(() => {
-    setInterval(() => {
-      setCodeIndex((val) => (val >= sampleCode.length ? 0 : val + 1));
-    }, 100);
+    const timeout = setTimeout(() => {
+      setSrcDoc(`
+      <html>
+          <style>${css}</style>
+          <body>
+            ${html}
+            <script>${js}</script>
+          </body>     
+      </html>
+  `);
+    }, 250);
 
-    // return () => clearInterval(timerId);
-  }, []);
+    return () => clearTimeout(timeout);
+  }, [html, css]);
+
+  const getValue = (lang: Lang) => {
+    switch (lang) {
+      case Lang.html:
+        return html;
+      case Lang.css:
+        return css;
+      case Lang.js:
+        return js;
+      default:
+        break;
+    }
+  };
+
+  const runJS = () => {
+    setSrcDoc(`
+    <html>
+        <style>${css}</style>
+        <body>
+          ${html}
+          <script>${js}</script>
+        </body>     
+    </html>
+`);
+  };
 
   return (
     <section className={styles.demo}>
-      <div
+      <iframe
+        title="output"
+        sandbox="allow-scripts"
+        width="700px"
+        height="600px"
+        srcDoc={srcDoc}
         className={styles.output}
-        dangerouslySetInnerHTML={{ __html: sampleCode.slice(0, codeIndex) }}
-      ></div>
-      <section id={styles.code_editor}>
-        <div id={styles.icons}>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+      />
+      <div className={styles.editorContainer}>
+        <div className={styles.editorTabs}>
+          {tabs.map(([name, image]) => (
+            <div
+              className={`${lang === name && styles.active}`}
+              onClick={() => setLang(name as Lang)}
+              key={name}
+            >
+              <Image
+                src={`/${image}`}
+                width="28px"
+                height="28px"
+                layout="fixed"
+              />
+              <span>{name}</span>
+            </div>
+          ))}
 
-        <div>
-          <SyntaxHighlighter
-            language="jsx"
-            style={atomOneDark}
-            customStyle={{ background: '#17303b' }}
-          >
-            {sampleCode.slice(0, codeIndex)}
-          </SyntaxHighlighter>
+          <VscPlay className={styles.icon} size={24} onClick={runJS} />
         </div>
-      </section>
+        <div>
+          {lang === Lang.html && (
+            <Editor2
+              onChange={(value, e) => setHtml(value as string)}
+              value={getValue(lang) as string}
+              width="50vw"
+              height="69vh"
+              language="html"
+              className={styles.editor}
+            />
+          )}
+          {lang === Lang.css && (
+            <Editor2
+              onChange={(value, e) => setCss(value as string)}
+              value={getValue(lang) as string}
+              width="50vw"
+              height="69vh"
+              language="css"
+              className={styles.editor}
+            />
+          )}
+          {lang === Lang.js && (
+            <Editor2
+              onChange={(value, e) => setJs(value as string)}
+              value={getValue(lang) as string}
+              width="50vw"
+              height="69vh"
+              language="javascript"
+              className={styles.editor}
+            />
+          )}
+        </div>
+      </div>
     </section>
   );
 };

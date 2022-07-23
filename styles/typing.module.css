@@ -53,7 +53,64 @@ section#code_editor code#typing {
 }
 
 .output {
-  flex: 1;
-  margin: 0 1rem;
-  margin-top: 2.5rem;
+  background: white;
+  box-shadow: 0 0 5px 5px #f0f0f0;
+  border-radius: 0.5rem;
+  overflow: none;
+}
+
+.editorContainer {
+  box-shadow: 0 0 5px 5px #f0f0f0;
+  border-radius: 0.5rem;
+}
+.editorTabs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: #17303b;
+  padding: 1rem;
+
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  padding-left: 2rem;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.editorTabs > div {
+  margin-right: 2.5rem;
+  color: white;
+  cursor: pointer;
+  padding: 0.8rem 2rem;
+  transition: all 300ms ease-in-out;
+  border-radius: 0.3rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.editorTabs > div:hover {
+  background: rgba(255, 166, 0, 0.1);
+}
+
+.editorTabs > div > span {
+  margin-left: 0.8rem;
+}
+
+.editorTabs .active {
+  background: rgba(255, 166, 0, 0.1);
+  border-bottom: 3px solid rgba(255, 166, 0, 0.6);
+}
+
+.icon {
+  color: rgb(159, 146, 247);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.icon:hover {
+  padding: 0.2rem;
+  border-radius: 50%;
+  background-color: rgb(185, 113, 19);
+  color: white;
 }
