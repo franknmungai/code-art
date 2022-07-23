@@ -1,6 +1,8 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
 import styles from '../styles/typing.module.css';
 import * as sampleCode from '../utils/sample-code';
+
 import Editor2 from './Editor2';
 import Image from 'next/image';
 import { VscPlay } from 'react-icons/vsc';

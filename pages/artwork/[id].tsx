@@ -2,8 +2,9 @@ import { useQuery } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import domtoImage from 'dom-to-image';
 import client from '../../apollo-client';
 import Editor2 from '../../components/Editor2';
 import { UPDATE_ARTWORK } from '../../graphql/mutations';
@@ -21,6 +22,7 @@ const Create = () => {
   const [srcDoc, setSrcDoc] = useState('');
   const [lang, setLang] = useState(Lang.html);
   const { data: session } = useSession();
+  const [imageUrl, setImageUrl] = useState('');
   const {
     query: { id },
   } = useRouter();
@@ -73,13 +75,13 @@ const Create = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      // @ts-ignore
       setSrcDoc(`
       <html>
           <style>${css}</style>
           <body>
             ${html}
             <script>${js}</script>
-
           </body>     
       </html>
   `);
@@ -114,6 +116,13 @@ const Create = () => {
   const update = async () => {
     const id = toast.loading('Updating your project. 🚀');
 
+    const node = document.getElementById('artwork') as HTMLElement;
+
+    const imageUrl = await domtoImage.toPng(node);
+    setImageUrl(imageUrl);
+
+    return;
+
     try {
       await client.mutate({
         mutation: UPDATE_ARTWORK,
@@ -138,12 +147,16 @@ const Create = () => {
 
   return (
     <div className={styles.container}>
+      <img src={imageUrl} alt="art" />
       <div className={styles.topbar}>
         {isOwner() && (
           <button className={styles.btn} onClick={update}>
             Update
           </button>
         )}
+        <button className={styles.btn} onClick={update}>
+          Update
+        </button>
         <Link href="/create">
           <button className={`${styles.btn} ${styles.new}`}>New</button>
         </Link>
@@ -161,6 +174,7 @@ const Create = () => {
           height="680px"
           srcDoc={srcDoc}
           className={styles.output}
+          id="artwork"
         />
 
         <div className={styles.editorContainer}>

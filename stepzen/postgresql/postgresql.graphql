@@ -16,6 +16,7 @@ type Artwork {
   hot: Int!
   amazing: Int!
   mindblowing: Int!
+  image_url: String
 }
 
 """

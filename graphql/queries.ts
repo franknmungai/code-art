@@ -34,6 +34,7 @@ export const GET_ARTWORK = gql`
       hot
       amazing
       mindblowing
+      # image_url
       reactionsList {
         id
         emoji
@@ -53,6 +54,7 @@ export const GET_ARTWORK_BY_ID = gql`
       html
       css
       js
+      # image_url
       reactionsList {
         emoji
         id

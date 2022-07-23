@@ -2,9 +2,10 @@ import { useMutation } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { VscPlay } from 'react-icons/vsc';
+import domtoImage from 'dom-to-image';
 import Editor2 from '../components/Editor2';
 import { CREATE_ARTWORK } from '../graphql/mutations';
 import { GET_ARTWORK } from '../graphql/queries';
@@ -101,6 +102,10 @@ const Create = () => {
 
   const createArtwork = async () => {
     const id = toast.loading('Creating your piece of art. 🚀');
+    const node = document.getElementById('output') as HTMLElement;
+
+    const dataURL = domtoImage.toPng(node);
+    console.log({ dataURL });
 
     try {
       const {
@@ -143,6 +148,7 @@ const Create = () => {
           height="680px"
           srcDoc={srcDoc}
           className={styles.output}
+          id="output"
         />
 
         <div className={styles.editorContainer}>
