@@ -61,3 +61,12 @@ export const UPDATE_ARTWORK = gql`
     }
   }
 `;
+export const DELETE_ARTWORK = gql`
+  mutation MyMutation($id: ID!) {
+    deleteArtwork(id: $id) {
+      id
+      created_at
+      user_id
+    }
+  }
+`;

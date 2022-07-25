@@ -4,13 +4,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import domtoImage from 'dom-to-image';
 import client from '../../apollo-client';
 import Editor2 from '../../components/Editor2';
 import { UPDATE_ARTWORK } from '../../graphql/mutations';
 import { GET_ARTWORK_BY_ID } from '../../graphql/queries';
 import styles from '../../styles/create-page.module.css';
-import { VscPlay, VscVmRunning } from 'react-icons/vsc';
+import { VscPlay } from 'react-icons/vsc';
+import { toJpeg } from 'html-to-image';
+
 import Link from 'next/link';
 
 enum Lang {
@@ -116,12 +117,13 @@ const Create = () => {
   const update = async () => {
     const id = toast.loading('Updating your project. 🚀');
 
-    const node = document.getElementById('artwork') as HTMLElement;
+    // const node = document.getElementById('artwork') as HTMLElement;
+    // let node = document.createElement('div');
+    // node.innerHTML = `<h1>Hello world</h1>`;
 
-    const imageUrl = await domtoImage.toPng(node);
-    setImageUrl(imageUrl);
-
-    return;
+    // // const imageUrl = await domtoImage.toPng(node);
+    // const imageUrl = await toJpeg(node);
+    // setImageUrl(imageUrl);
 
     try {
       await client.mutate({
