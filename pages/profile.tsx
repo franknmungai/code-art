@@ -14,7 +14,7 @@ const ProfilePage = () => {
 
   const { data } = useQuery(GET_USER_BY_EMAIL, {
     variables: {
-      email: 'frankmungai6@gmail.com', //session?.user?.email,
+      email: session?.user?.email,
     },
   });
 
