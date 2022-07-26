@@ -83,15 +83,10 @@
   /* display: none; */
   opacity: 0;
   transition: all 0.3s ease-in-out;
-  font-size: 1.25rem;
 }
 
 .user_art:hover .del_icon {
   /* display: block; */
   opacity: 1;
   cursor: pointer;
-  font-size: 1rem;
-  padding: 0.5rem;
-  background: #c9c8c8;
-  border-radius: 50%;
 }
