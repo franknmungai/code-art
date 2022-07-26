@@ -30,6 +30,7 @@ const ProfilePage = () => {
         variables: {
           id,
         },
+        refetchQueries: [GET_USER_BY_EMAIL],
       });
       toast.success('Your project has been deleted successfully ✅', {
         id: toastId,
